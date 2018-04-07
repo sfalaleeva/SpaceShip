@@ -44,4 +44,27 @@ D.  if name != "Alice":
     elif name == "Alice":
       print("Hello Alice")
 
-## Which of the following code snippets is the optimal way to 
+## Which of the following code snippets is the optimal way to sum numbers using a
+## while loop
+A.  sum = 0
+    n = 10
+    while true:
+      sum += n
+      n -=1
+B.  sum = 0
+    n = 10
+    while true:
+      sum += n
+      n -=1
+      if n < 0:
+          break
+C.  sum = 0
+    n = 1
+    while n > 0:
+      sum += n
+      n += 1
+D.  sum = 0
+    n = 10
+    while n > 0:
+      sum += n
+      n -= 1
