@@ -13,7 +13,6 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
 <script>
     let canvas;    // DOM object corresponding to the canvas
     let graphics;  // 2D graphics context for drawing on the canvas
-    let keyboard = new KeyboardState;
     let spaceship_x = 450;
     let spaceship_y = 480;
     let rightPressed = false;
@@ -34,7 +33,16 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       }
     }
 
-    function spaceship(x, y){
+    function keyUpHandler(e) {
+      if (e.keyCode == 39) {
+        rightPressed = false;
+      } else if (e.keyCode == 37) {
+        leftPressed = false;
+      }
+    }
+
+    function drawSpaceship(x, y){
+
       graphics.fillStyle = "Red";
       //graphics.fillRect(225, 480, 15, 15);
       graphics.fillRect(x, y, 15, 15);
@@ -45,17 +53,21 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     function asteroid(){}
 
     function draw(){
+      console.log("Drawing");
       // clear the canvas
       graphics.clearRect(0, 0, canvas.width, canvas.width);
       // If spaceship should be moving right, and is not at the right wall
-      if (rightPressed && spacheship_x <canvas.width){
+      if (rightPressed && spaceship_x <canvas.width-15){
         spaceship_x += 5;
       }
       // If spaceship shoul be moving left and is not at the left wall
-      else if (leftpressed && spaceship_x > 0){
+      else if (leftPressed && spaceship_x > 0){
         spaceship_x -= 5;
       }
-      spaceship(spaceship_x, spaceship_y);
+      drawSpaceship(spaceship_x, spaceship_y);
+
+      // Tell JS to animate frame by recursively calling
+      requestAnimationFrame(draw);
     }
 
     function init() {
@@ -64,8 +76,6 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         draw();  // draw something on the canvas
     }
 
-    // Tell JS to animate frame by recursively calling
-    requestAnimationFrame(draw);
 
 </script>
 </head>
