@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--
+Final Project: SpaceWars2050
+Mai Ngo, Asmita Gautam, Miriam Hodas, Stacey Falaleeva
+
+Note: Borrowed some code from the PaddleBall sprint (moving left and right)
+-->
+<html>
+<head>
+<title>SpaceWars2050</title>
+<link href="spaceWars.css" ref="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    let canvas;    // DOM object corresponding to the canvas
+    let graphics;  // 2D graphics context for drawing on the canvas
+    let keyboard = new KeyboardState;
+    let spaceship_x = 450;
+    let spaceship_y = 480;
+    let rightPressed = false;
+    let leftPressed = false;
+
+    // Add event listeners for keydown and keyup events.
+    document.addEventListener("keydown", keyDownHandler, false);
+		document.addEventListener("keyup", keyUpHandler, false);
+
+    // Create Handlers for keydown and keyup events
+    function keyDownHandler(e) {
+      // e.keyCode == 39 (right arrow key)
+			// e.keyCode == 37 (left arrow key)
+      if (e.keyCode == 39) {
+        rightPressed = true;
+      } else if (e.keyCode == 37) {
+        leftPressed = true;
+      }
+    }
+
+    function spaceship(x, y){
+      graphics.fillStyle = "Red";
+      //graphics.fillRect(225, 480, 15, 15);
+      graphics.fillRect(x, y, 15, 15);
+    }
+
+    function alien(){}
+
+    function asteroid(){}
+
+    function draw(){
+      // clear the canvas
+      graphics.clearRect(0, 0, canvas.width, canvas.width);
+      // If spaceship should be moving right, and is not at the right wall
+      if (rightPressed && spacheship_x <canvas.width){
+        spaceship_x += 5;
+      }
+      // If spaceship shoul be moving left and is not at the left wall
+      else if (leftpressed && spaceship_x > 0){
+        spaceship_x -= 5;
+      }
+      spaceship(spaceship_x, spaceship_y);
+    }
+
+    function init() {
+        canvas = document.getElementById("theCanvas");
+        graphics = canvas.getContext("2d");
+        draw();  // draw something on the canvas
+    }
+
+    // Tell JS to animate frame by recursively calling
+    requestAnimationFrame(draw);
+
+</script>
+</head>
+<body onload="init()">
+    <canvas id="theCanvas" width="900" height="500"></canvas>
+</body>
+</html>
