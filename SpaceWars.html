@@ -18,6 +18,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let spaceship_y = 450;
     let rightPressed = false;
     let leftPressed = false;
+    let sPressed = false;
+    
     // Asteroid will have a radius of 10px
 	  let asteroidRadius = 10;
 
@@ -43,6 +45,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     // Add event listeners for keydown and keyup events.
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
+    document.addEventListener("shoot", keyShootHandler, false);
 
     // Create Handlers for keydown and keyup events
     function keyDownHandler(e) {
@@ -62,6 +65,14 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         leftPressed = false;
       }
     }
+    
+   function keyShootHandler(e) {
+     if (e.keyCode == 83) {
+     	sPressed = true;
+     } else {
+     	sPressed = false;
+     	}
+     }
 
     function drawSpaceship(x, y){
       graphics.drawImage(spaceship, x, y, 40, 40);
@@ -102,6 +113,9 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       // If spaceship shoul be moving left and is not at the left wall
       else if (leftPressed && spaceship_x > 0){
         spaceship_x -= 5;
+      }
+      if (sPressed){
+      
       }
       drawSpaceship(spaceship_x, spaceship_y);
 
