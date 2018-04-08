@@ -55,6 +55,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     // place holder for collision coordinates
     let explosionX;
     let explosionY;
+    let explosionTime = -1;
     let explosionSize = 60;
 
     // Add event listeners for keydown and keyup events.
@@ -172,6 +173,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       }
       }
 
+      drawExplosion();
       drawSpaceship(spaceship_x, spaceship_y);
       drawLives();
 
@@ -242,9 +244,17 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       requestAnimationFrame(draw);
     }
 
-    function drawExplosion(explosionX, explosionY) {
+    function drawExplosion() {
+      explosionTime -= 1;
+      if (explosionTime > 0) {
+        graphics.drawImage(explosion, explosionX, explosionY, explosionSize, explosionSize);
+      }
+    }
 
-      graphics.drawImage(explosion, explosionX, explosionY, explosionSize, explosionSize);
+    function startExplosion(x, y) {
+      explosionX = x;
+      explosionY = y;
+      explosionTime = 15;
     }
 
     function collisionDetection() {
@@ -255,8 +265,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         && (asteroidY + 25 >= spaceship_y - 15) && (asteroidY - 25 <= spaceship_y + 15))) {
         explosionX = asteroidX;
         explosionY = asteroidY+10;
-        drawExplosion(explosionX, explosionY);
         explosion_s.play();
+        startExplosion(explosionX, explosionY);
         if (lives == 0) {
           drawLose();
           cancelAnimationFrame();
@@ -271,8 +281,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         && (alienY + 25 >= spaceship_y - 15) && (alienY - 25 <= spaceship_y + 15)) {
         explosionX = alienX;
         explosionY = alienY+10;
-        drawExplosion(explosionX, explosionY);
         explosion_s.play();
+        startExplosion(explosionX, explosionY);
         if (lives == 0) {
           drawLose();
           cancelAnimationFrame();
@@ -288,8 +298,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       && (asteroidY + 35 >= shots[i][1] - 5) && (asteroidY - 35 <= shots[i][1] + 5)) {
         explosionX = asteroidX;
         explosionY = asteroidY+10;
-        drawExplosion(explosionX, explosionY);
         explosion_s.play();
+        startExplosion(explosionX, explosionY);
         asteroidX = getRandomInt(0, canvas.width);
         asteroidY = 0;
         score += 1;
@@ -303,8 +313,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       && (alienY + 33 >= shots[i][1] - 5) && (alienY - 33 <= shots[i][1] + 5)) {
         explosionX = alienX;
         explosionY = alienY+10;
-        drawExplosion(explosionX, explosionY);
         explosion_s.play();
+        startExplosion(explosionX, explosionY);
         alienX = getRandomInt(0, canvas.width);
         alienY = 0;
         score += 1;
