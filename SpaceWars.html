@@ -16,6 +16,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let graphics;  // 2D graphics context for drawing on the canvas
     let spaceship_x = 450;
     let spaceship_y = 450;
+    let shots = [];
     let rightPressed = false;
     let leftPressed = false;
     let sPressed = false;
@@ -45,7 +46,6 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     // Add event listeners for keydown and keyup events.
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
-    document.addEventListener("shoot", keyShootHandler, false);
 
     // Create Handlers for keydown and keyup events
     function keyDownHandler(e) {
@@ -55,7 +55,9 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         rightPressed = true;
       } else if (e.keyCode == 37) {
         leftPressed = true;
-      }
+      } else if (e.keyCode == 83) {
+        sPressed = true;
+    }
     }
 
     function keyUpHandler(e) {
@@ -63,19 +65,20 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         rightPressed = false;
       } else if (e.keyCode == 37) {
         leftPressed = false;
-      }
+      } else if (e.keyCode == 83) {
+      sPressed = false;
     }
-    
-   function keyShootHandler(e) {
-     if (e.keyCode == 83) {
-     	sPressed = true;
-     } else {
-     	sPressed = false;
-     	}
-     }
+    }
 
     function drawSpaceship(x, y){
       graphics.drawImage(spaceship, x, y, 40, 40);
+      graphics.fillStyle = "Red";
+      //graphics.fillRect(225, 480, 15, 15);
+      //graphics.fillRect(x, y, 15, 15);
+    }
+    
+     function drawShooting(x, y){
+      graphics.fillRect(x, y, 10, 10);
       graphics.fillStyle = "Red";
       //graphics.fillRect(225, 480, 15, 15);
       //graphics.fillRect(x, y, 15, 15);
@@ -115,15 +118,23 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         spaceship_x -= 5;
       }
       if (sPressed){
-      
+      let new_shoot = [spaceship_x, spaceship_y];
+      shots.push(new_shoot);
       }
+      
       drawSpaceship(spaceship_x, spaceship_y);
-
+      
+      for (i = 0; i < shots.length; i++) { 
+       drawShooting(shots[i][0], shots[i][1]);
+       shots[i][1] -= 5;
+       }
+       
+       
     	// Draw various game components
     	drawAsteroid();
     	drawAlien();
     	
-    	 collisionDetection();
+    	collisionDetection();
 
     	// If the asteroid hits the LEFT/RIGHT WALL,
     	// switch horizontal travel direction
