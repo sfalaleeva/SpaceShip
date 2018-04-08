@@ -79,7 +79,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     }
 
     function drawSpaceship(x, y){
-      graphics.drawImage(spaceship, x, y, 40, 40);
+      graphics.drawImage(spaceship, x, y, 50, 50);
       //graphics.fillStyle = "Red";
       //graphics.fillRect(225, 480, 15, 15);
       //graphics.fillRect(x, y, 15, 15);
@@ -99,7 +99,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     	//graphics.arc(asteroidX, asteroidY, asteroidRadius, 0, Math.PI*2);
     	//graphics.fill();
     	//graphics.closePath();
-      graphics.drawImage(asteroid, asteroidX, asteroidY, 40, 40);
+      graphics.drawImage(asteroid, asteroidX, asteroidY, 70, 70);
     }
     /* -------------------------------------------------
     Draw a circle on the canvas to represent the asteroid
@@ -109,7 +109,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     	//graphics.arc(alienX, alienY, alienRadius, 0, Math.PI*2);
     	//graphics.fill();
     	//graphics.closePath();
-      graphics.drawImage(alien, alienX, alienY, 40, 40);
+      graphics.drawImage(alien, alienX, alienY, 70, 70);
     }
 
     function drawScore() {
@@ -208,19 +208,19 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     }
 
     function collisionDetection() {
-     if (((asteroidX >= spaceship_x) && (asteroidX <= spaceship_x + 10)
-      && (asteroidY >= spaceship_y) && (asteroidY <= spaceship_y + 10)) ||
-     ((alienX >= spaceship_x) && (alienX <= spaceship_x + 10)
-      && (alienY >= spaceship_y) && (alienY <= spaceship_y + 10))){
+     if (((asteroidX + 30 >= spaceship_x - 15) && (asteroidX - 30 <= spaceship_x + 15)
+      && (asteroidY + 30 >= spaceship_y - 15) && (asteroidY - 30 <= spaceship_y + 15)) ||
+     ((alienX + 30 >= spaceship_x - 15) && (alienX - 30 <= spaceship_x + 15)
+      && (alienY + 30 >= spaceship_y - 15) && (alienY - 25 <= spaceship_y + 15))){
 			alert ("You lose!");
 			document.location.reload();
 		}
 
 		for (i = 0; i < shots.length; i++) {
-		  if (((asteroidX >= shots[i][0]) && (asteroidX <= shots[i][0] + 10)
-      && (asteroidY >= shots[i][1]) && (asteroidY <= shots[i][1] + 10)) ||
-     ((alienX >= shots[i][0]) && (alienX <= shots[i][0] + 10)
-      && (alienY >= shots[i][1]) && (alienY <= shots[i][1] + 10))){
+		  if (((asteroidX + 30 >= shots[i][0] - 5) && (asteroidX - 30 <= shots[i][0] + 5)
+      && (asteroidY + 30 >= shots[i][1] - 5) && (asteroidY - 30 <= shots[i][1] + 5)) ||
+     ((alienX + 30 >= shots[i][0] - 5) && (alienX - 30 <= shots[i][0] + 5)
+      && (alienY + 30 >= shots[i][1] - 5) && (alienY - 30 <= shots[i][1] + 5))){
       	asteroidX = getRandomInt(0, canvas.width);
       	asteroidY = 0;
       	alienX = getRandomInt(0, canvas.width);
