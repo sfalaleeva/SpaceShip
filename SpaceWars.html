@@ -110,6 +110,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     	// Draw various game components
     	drawAsteroid();
     	drawAlien();
+    	
+    	 collisionDetection();
     
     	// If the asteroid hits the LEFT/RIGHT WALL,
     	// switch horizontal travel direction
@@ -164,6 +166,16 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       	// Tell JS to animate frame by recursively calling
       	requestAnimationFrame(draw);
     }
+    
+    function collisionDetection() {
+     if (((asteroidX >= spaceship_x) && (asteroidX <= spaceship_y + 10) 
+      && (asteroidY >= spaceship_y) && (asteroidY <= spaceship_y + 10)) ||
+     ((alienX >= spaceship_x) && (alienX <= spaceship_y + 10) 
+      && (alienY >= spaceship_y) && (alienY <= spaceship_y + 10))){
+			alert ("You lose!");
+			document.location.reload();
+		}
+		}
 
     function init() {
         canvas = document.getElementById("theCanvas");
