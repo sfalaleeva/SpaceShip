@@ -24,6 +24,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let leftPressed = false;
     let sPressed = false;
     let score = 0;
+    let checkTime = 0;
 
     // Asteroid will have a radius of 10px
 	  let asteroidRadius = 40;
@@ -40,12 +41,12 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let alienY = 0;
 
     // And when the asteroid moves, we'll shift 2px at a time
-    let ast_dx = 10;
-    let ast_dy = 10;
+    let ast_dx = 5;
+    let ast_dy = 5;
 
     // And when the alien moves, we'll shift 2px at a time
-    let alien_dx = 10;
-    let alien_dy = 10;
+    let alien_dx = 5;
+    let alien_dy = 5;
 
     // Add event listeners for keydown and keyup events.
     document.addEventListener("keydown", keyDownHandler, false);
@@ -60,7 +61,11 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       } else if (e.keyCode == 37) {
         leftPressed = true;
       } else if (e.keyCode == 83) {
+      let currentTime = new Date();
+      if((currentTime.getTime() - checkTime) > 100){
         sPressed = true;
+        checkTime =currentTime.getTime();
+    }
       }
     }
 
@@ -138,8 +143,10 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         spaceship_x -= 5;
       }
       if (sPressed){
-        let new_shoot = [spaceship_x+20, spaceship_y];
-        shots.push(new_shoot);
+      if (shots.length < 20){
+      let new_shoot = [spaceship_x+20, spaceship_y];
+      shots.push(new_shoot);
+      }
       }
 
       drawSpaceship(spaceship_x, spaceship_y);
@@ -147,9 +154,11 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       for (i = 0; i < shots.length; i++) {
        drawShooting(shots[i][0], shots[i][1]);
        shots[i][1] -= 5;
-      }
-
-
+       
+        if(shots[i][1] + 5 < 10) {
+        shots.splice(i, 1);
+    }
+    }
     	// Draw various game components
     	drawAsteroid();
     	drawAlien();
