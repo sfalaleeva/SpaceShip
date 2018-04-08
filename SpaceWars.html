@@ -10,6 +10,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
 <title>SpaceWars2050</title>
 <link href="/css/style.css" rel="stylesheet">
 <img id="spaceship" width="0" height="0" src="spaceship.png" alt="SpaceShip">
+<img id="asteroid" width="0" height="0" src="asteroid.png" alt="Asteroid">
+<img id="alien" width="0" height="0" src="alien.png" alt="Alien">
 <script>
     let canvas;    // DOM object corresponding to the canvas
     let graphics;  // 2D graphics context for drawing on the canvas
@@ -23,16 +25,15 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let score = 0;
     let checkTime = 0;
 
-    
     // Asteroid will have a radius of 10px
-	  let asteroidRadius = 10;
+	  let asteroidRadius = 40;
 
 	  // Asteroid start off point
 	  let asteroidX = 600;
 	  let asteroidY = 0;
 
 	  // Alien will have a radius of 10px
-	  let alienRadius = 10;
+	  let alienRadius = 40;
 
     // Alien start off point
     let alienX = 300;
@@ -64,7 +65,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         sPressed = true;
         checkTime =currentTime.getTime();
     }
-    }
+      }
     }
 
     function keyUpHandler(e) {
@@ -74,16 +75,16 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         leftPressed = false;
       } else if (e.keyCode == 83) {
       sPressed = false;
-    }
+      }
     }
 
     function drawSpaceship(x, y){
       graphics.drawImage(spaceship, x, y, 40, 40);
-      graphics.fillStyle = "Red";
+      //graphics.fillStyle = "Red";
       //graphics.fillRect(225, 480, 15, 15);
       //graphics.fillRect(x, y, 15, 15);
     }
-    
+
      function drawShooting(x, y){
       graphics.fillRect(x, y, 10, 10);
       graphics.fillStyle = "Red";
@@ -94,21 +95,23 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     Draw a circle on the canvas to represent the asteroid
     ------------------------------------------------- */
     function drawAsteroid() {
-    	graphics.beginPath();
-    	graphics.arc(asteroidX, asteroidY, asteroidRadius, 0, Math.PI*2);
-    	graphics.fill();
-    	graphics.closePath();
+    	//graphics.beginPath();
+    	//graphics.arc(asteroidX, asteroidY, asteroidRadius, 0, Math.PI*2);
+    	//graphics.fill();
+    	//graphics.closePath();
+      graphics.drawImage(asteroid, asteroidX, asteroidY, 40, 40);
     }
     /* -------------------------------------------------
     Draw a circle on the canvas to represent the asteroid
     ------------------------------------------------- */
     function drawAlien() {
-    	graphics.beginPath();
-    	graphics.arc(alienX, alienY, alienRadius, 0, Math.PI*2);
-    	graphics.fill();
-    	graphics.closePath();
+    	//graphics.beginPath();
+    	//graphics.arc(alienX, alienY, alienRadius, 0, Math.PI*2);
+    	//graphics.fill();
+    	//graphics.closePath();
+      graphics.drawImage(alien, alienX, alienY, 40, 40);
     }
-    
+
     function drawScore() {
     graphics.fillText("Score: "+score, 8, 20);
 }
@@ -134,10 +137,14 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       shots.push(new_shoot);
       }
       }
-      
+
+        let new_shoot = [spaceship_x+20, spaceship_y];
+        shots.push(new_shoot);
+      }
+
       drawSpaceship(spaceship_x, spaceship_y);
-      
-      for (i = 0; i < shots.length; i++) { 
+
+      for (i = 0; i < shots.length; i++) {
        drawShooting(shots[i][0], shots[i][1]);
        shots[i][1] -= 5;
        
@@ -145,12 +152,11 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         shots.splice(i, 1);
     }
     }
-       
     	// Draw various game components
     	drawAsteroid();
     	drawAlien();
     	drawScore();
-    	
+
     	collisionDetection();
 
     	// If the asteroid hits the LEFT/RIGHT WALL,
@@ -162,14 +168,14 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     	}
     	if(asteroidX < -asteroidRadius){
     		asteroidX = 0;
-        	asteroidY = 0;
-        	ast_dx = 2;
+        asteroidY = 0;
+        ast_dx = 2;
     	}
 
     	// If the asteroid hits the LOWER WALL
     	// switch vertical travel direction
     	if(asteroidY > canvas.height + asteroidRadius) {
-        	asteroidY = 0;
+        asteroidY = 0;
     	}
 
     	// Move the asteroid
@@ -204,34 +210,36 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       // Tell JS to animate frame by recursively calling
       requestAnimationFrame(draw);
     }
-    
+
     function collisionDetection() {
-     if (((asteroidX >= spaceship_x) && (asteroidX <= spaceship_x + 10) 
+     if (((asteroidX >= spaceship_x) && (asteroidX <= spaceship_x + 10)
       && (asteroidY >= spaceship_y) && (asteroidY <= spaceship_y + 10)) ||
-     ((alienX >= spaceship_x) && (alienX <= spaceship_x + 10) 
+     ((alienX >= spaceship_x) && (alienX <= spaceship_x + 10)
       && (alienY >= spaceship_y) && (alienY <= spaceship_y + 10))){
 			alert ("You lose!");
 			document.location.reload();
 		}
-		
-		for (i = 0; i < shots.length; i++) { 
-		  if (((asteroidX >= shots[i][0]) && (asteroidX <= shots[i][0] + 10) 
+
+		for (i = 0; i < shots.length; i++) {
+		  if (((asteroidX >= shots[i][0]) && (asteroidX <= shots[i][0] + 10)
       && (asteroidY >= shots[i][1]) && (asteroidY <= shots[i][1] + 10)) ||
-     ((alienX >= shots[i][0]) && (alienX <= shots[i][0] + 10) 
+     ((alienX >= shots[i][0]) && (alienX <= shots[i][0] + 10)
       && (alienY >= shots[i][1]) && (alienY <= shots[i][1] + 10))){
       	asteroidX = getRandomInt(0, canvas.width);
       	asteroidY = 0;
       	alienX = getRandomInt(0, canvas.width);
       	alienY = 0;
       	score += 1;
-       }
-       }
-       }
+      }
+    }
+  }
 
     function init() {
         canvas = document.getElementById("theCanvas");
         graphics = canvas.getContext("2d");
         let spaceship = document.getElementById("spaceship");
+        let asteroid = document.getElementById("asteroid");
+        let alien = document.getElementById("alien");
         draw();  // draw something on the canvas
     }
 
@@ -243,6 +251,6 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     <div class="inner"></div>
     <canvas id="theCanvas" width="600" height="1200"></canvas>
   </div>
-  
+
 </body>
 </html>
