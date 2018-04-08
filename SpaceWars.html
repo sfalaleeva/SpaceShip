@@ -51,6 +51,11 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let alien_dx = 5;
     let alien_dy = 5;
 
+    // place holder for collision coordinates
+    let explosionX;
+    let explosionY;
+    let explosionSize = 60;
+
     // Add event listeners for keydown and keyup events.
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
@@ -142,9 +147,6 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     graphics.fillText("GAME OVER :(",100,300);
     }
 
-    function drawExplosion() {
-    graphics.drawImage(explosion, asteroidX, asteroidY, 30, 30);
-    }
 
     function getRandomInt(min, max) {
     	return Math.random() * (max - min) + min;
@@ -238,42 +240,64 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       requestAnimationFrame(draw);
     }
 
+    function drawExplosion(explosionX, explosionY) {
+
+      graphics.drawImage(explosion, explosionX, explosionY, explosionSize, explosionSize);
+    }
+
     function collisionDetection() {
     
-    // tests boundaries and see if objects collide
+
+    // if spaceship hits asteroid
       if (((asteroidX + 25 >= spaceship_x - 15) && (asteroidX - 25 <= spaceship_x + 15)
-        && (asteroidY + 25 >= spaceship_y - 15) && (asteroidY - 25 <= spaceship_y + 15)) ||
-        ((alienX + 25 >= spaceship_x - 15) && (alienX - 25 <= spaceship_x + 15)
-        && (alienY + 25 >= spaceship_y - 15) && (alienY - 25 <= spaceship_y + 15))){
-        
-        drawExplosion();
-         if (lives == 0) {
-         drawLose();
-			cancelAnimationFrame();
-			}
-			lives = lives - 1;
-			asteroidX = getRandomInt(0, canvas.width);
-			asteroidY = 0;
-			alienX = getRandomInt(0, canvas.width);
-			alienY = 0;
-		}
+        && (asteroidY + 25 >= spaceship_y - 15) && (asteroidY - 25 <= spaceship_y + 15))) {
+        explosionX = asteroidX;
+        explosionY = asteroidY+10;
+        drawExplosion(explosionX, explosionY);
+        if (lives == 0) {
+          drawLose();
+          cancelAnimationFrame();
+        }
+        lives = lives - 1;
+        asteroidX = getRandomInt(0, canvas.width);
+        asteroidY = 0;
+      }
+
+    // if spaceship hits alien
+    else if ((alienX + 25 >= spaceship_x - 15) && (alienX - 25 <= spaceship_x + 15)
+        && (alienY + 25 >= spaceship_y - 15) && (alienY - 25 <= spaceship_y + 15)) {
+        explosionX = alienX;
+        explosionY = alienY+10;
+        drawExplosion(explosionX, explosionY);
+        lives = lives - 1;
+        alienX = getRandomInt(0, canvas.width);
+        alienY = 0;
+    }
 
     // when you shoot and hit asteroid/alien, your score goes up
 		for (i = 0; i < shots.length; i++) {
-		  if (((asteroidX + 35 >= shots[i][0] - 5) && (asteroidX - 35 <= shots[i][0] + 5)
-      && (asteroidY + 35 >= shots[i][1] - 5) && (asteroidY - 35 <= shots[i][1] + 5)) ||
-     ((alienX + 33 >= shots[i][0] - 5) && (alienX - 33 <= shots[i][0] + 5)
-      && (alienY + 33 >= shots[i][1] - 5) && (alienY - 33 <= shots[i][1] + 5))){
-        drawExplosion();
-      	asteroidX = getRandomInt(0, canvas.width);
-      	asteroidY = 0;
-      	alienX = getRandomInt(0, canvas.width);
-      	alienY = 0;
-      	score += 1;
-      	if (score > 10){
-      	cancelAnimationFrame();
-      	}
-        
+		  if ((asteroidX + 35 >= shots[i][0] - 5) && (asteroidX - 35 <= shots[i][0] + 5)
+      && (asteroidY + 35 >= shots[i][1] - 5) && (asteroidY - 35 <= shots[i][1] + 5)) {
+        explosionX = asteroidX;
+        explosionY = asteroidY+10;
+        drawExplosion(explosionX, explosionY);
+        asteroidX = getRandomInt(0, canvas.width);
+        asteroidY = 0;
+        score += 1;
+      }
+     
+      else if ((alienX + 33 >= shots[i][0] - 5) && (alienX - 33 <= shots[i][0] + 5)
+      && (alienY + 33 >= shots[i][1] - 5) && (alienY - 33 <= shots[i][1] + 5)) {
+        explosionX = alienX;
+        explosionY = alienY+10;
+        drawExplosion(explosionX, explosionY);
+        alienX = getRandomInt(0, canvas.width);
+        alienY = 0;
+        score += 1;
+
+        if (score > 10){
+        cancelAnimationFrame();
+        }
       }
     }
   }
