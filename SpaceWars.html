@@ -28,7 +28,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let score = 0;
     let checkTime = 0;
     let sound = new Audio("background.mp3"); // buffers automatically when created
-
+    let shoot_s = new Audio("shoot.wav");
+    let explosion_s = new Audio("explosion.wav");
     // Asteroid will have a radius of 10px
 	  let asteroidRadius = 40;
 
@@ -167,6 +168,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       if (shots.length < 20){
       let new_shoot = [spaceship_x+20, spaceship_y];
       shots.push(new_shoot);
+      shoot_s.play();
       }
       }
 
@@ -254,6 +256,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         explosionX = asteroidX;
         explosionY = asteroidY+10;
         drawExplosion(explosionX, explosionY);
+        explosion_s.play();
         if (lives == 0) {
           drawLose();
           cancelAnimationFrame();
@@ -269,6 +272,11 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         explosionX = alienX;
         explosionY = alienY+10;
         drawExplosion(explosionX, explosionY);
+        explosion_s.play();
+        if (lives == 0) {
+          drawLose();
+          cancelAnimationFrame();
+        }
         lives = lives - 1;
         alienX = getRandomInt(0, canvas.width);
         alienY = 0;
@@ -281,9 +289,14 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         explosionX = asteroidX;
         explosionY = asteroidY+10;
         drawExplosion(explosionX, explosionY);
+        explosion_s.play();
         asteroidX = getRandomInt(0, canvas.width);
         asteroidY = 0;
         score += 1;
+
+        if (score > 10){
+        cancelAnimationFrame();
+        }
       }
      
       else if ((alienX + 33 >= shots[i][0] - 5) && (alienX - 33 <= shots[i][0] + 5)
@@ -291,6 +304,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         explosionX = alienX;
         explosionY = alienY+10;
         drawExplosion(explosionX, explosionY);
+        explosion_s.play();
         alienX = getRandomInt(0, canvas.width);
         alienY = 0;
         score += 1;
