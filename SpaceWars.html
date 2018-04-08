@@ -20,6 +20,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let rightPressed = false;
     let leftPressed = false;
     let sPressed = false;
+    let score = 0;
     
     // Asteroid will have a radius of 10px
 	  let asteroidRadius = 10;
@@ -101,6 +102,10 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     	graphics.fill();
     	graphics.closePath();
     }
+    
+    function drawScore() {
+    graphics.fillText("Score: "+score, 8, 20);
+}
 
     function getRandomInt(min, max) {
     	return Math.random() * (max - min) + min;
@@ -108,7 +113,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
 
     function draw(){
       // clear the canvas
-      graphics.clearRect(0, 0, canvas.width, canvas.width);
+      graphics.clearRect(0, 0, canvas.width, canvas.height);
       // If spaceship should be moving right, and is not at the right wall
       if (rightPressed && spaceship_x <canvas.width-15){
         spaceship_x += 5;
@@ -118,7 +123,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         spaceship_x -= 5;
       }
       if (sPressed){
-      let new_shoot = [spaceship_x, spaceship_y];
+      let new_shoot = [spaceship_x+20, spaceship_y];
       shots.push(new_shoot);
       }
       
@@ -133,6 +138,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     	// Draw various game components
     	drawAsteroid();
     	drawAlien();
+    	drawScore();
     	
     	collisionDetection();
 
@@ -196,7 +202,20 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
 			alert ("You lose!");
 			document.location.reload();
 		}
-		}
+		
+		for (i = 0; i < shots.length; i++) { 
+		  if (((asteroidX >= shots[i][0]) && (asteroidX <= shots[i][0] + 10) 
+      && (asteroidY >= shots[i][1]) && (asteroidY <= shots[i][1] + 10)) ||
+     ((alienX >= shots[i][0]) && (alienX <= shots[i][0] + 10) 
+      && (alienY >= shots[i][1]) && (alienY <= shots[i][1] + 10))){
+      	asteroidX = getRandomInt(0, canvas.width);
+      	asteroidY = 0;
+      	alienX = getRandomInt(0, canvas.width);
+      	alienY = 0;
+      	score += 1;
+       }
+       }
+       }
 
     function init() {
         canvas = document.getElementById("theCanvas");
