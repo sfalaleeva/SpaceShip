@@ -15,9 +15,12 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let graphics;  // 2D graphics context for drawing on the canvas
     let spaceship_x = 550;
     let spaceship_y = 550;
+    let shots = [];
+
     let rightPressed = false;
     let leftPressed = false;
     let sPressed = false;
+    let score = 0;
     
     // Asteroid will have a radius of 10px
 	  let asteroidRadius = 10;
@@ -44,7 +47,6 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     // Add event listeners for keydown and keyup events.
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
-    document.addEventListener("shoot", keyShootHandler, false);
 
     // Create Handlers for keydown and keyup events
     function keyDownHandler(e) {
@@ -54,7 +56,9 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         rightPressed = true;
       } else if (e.keyCode == 37) {
         leftPressed = true;
-      }
+      } else if (e.keyCode == 83) {
+        sPressed = true;
+    }
     }
 
     function keyUpHandler(e) {
@@ -62,19 +66,20 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         rightPressed = false;
       } else if (e.keyCode == 37) {
         leftPressed = false;
-      }
+      } else if (e.keyCode == 83) {
+      sPressed = false;
     }
-    
-   function keyShootHandler(e) {
-     if (e.keyCode == 83) {
-     	sPressed = true;
-     } else {
-     	sPressed = false;
-     	}
-     }
+    }
 
     function drawSpaceship(x, y){
       graphics.drawImage(spaceship, x, y, 40, 40);
+      graphics.fillStyle = "Red";
+      //graphics.fillRect(225, 480, 15, 15);
+      //graphics.fillRect(x, y, 15, 15);
+    }
+    
+     function drawShooting(x, y){
+      graphics.fillRect(x, y, 10, 10);
       graphics.fillStyle = "Red";
       //graphics.fillRect(225, 480, 15, 15);
       //graphics.fillRect(x, y, 15, 15);
@@ -97,6 +102,10 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     	graphics.fill();
     	graphics.closePath();
     }
+    
+    function drawScore() {
+    graphics.fillText("Score: "+score, 8, 20);
+}
 
     function getRandomInt(min, max) {
     	return Math.random() * (max - min) + min;
@@ -114,15 +123,24 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         spaceship_x -= 5;
       }
       if (sPressed){
-      
+      let new_shoot = [spaceship_x+20, spaceship_y];
+      shots.push(new_shoot);
       }
+      
       drawSpaceship(spaceship_x, spaceship_y);
-
+      
+      for (i = 0; i < shots.length; i++) { 
+       drawShooting(shots[i][0], shots[i][1]);
+       shots[i][1] -= 5;
+       }
+       
+       
     	// Draw various game components
     	drawAsteroid();
     	drawAlien();
+    	drawScore();
     	
-    	 collisionDetection();
+    	collisionDetection();
 
     	// If the asteroid hits the LEFT/RIGHT WALL,
     	// switch horizontal travel direction
@@ -184,7 +202,20 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
 			alert ("You lose!");
 			document.location.reload();
 		}
-		}
+		
+		for (i = 0; i < shots.length; i++) { 
+		  if (((asteroidX >= shots[i][0]) && (asteroidX <= shots[i][0] + 10) 
+      && (asteroidY >= shots[i][1]) && (asteroidY <= shots[i][1] + 10)) ||
+     ((alienX >= shots[i][0]) && (alienX <= shots[i][0] + 10) 
+      && (alienY >= shots[i][1]) && (alienY <= shots[i][1] + 10))){
+      	asteroidX = getRandomInt(0, canvas.width);
+      	asteroidY = 0;
+      	alienX = getRandomInt(0, canvas.width);
+      	alienY = 0;
+      	score += 1;
+       }
+       }
+       }
 
     function init() {
         canvas = document.getElementById("theCanvas");
