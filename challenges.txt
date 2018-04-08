@@ -1,7 +1,8 @@
 ## File: codingchallenges.py
 ## The challenges that come up at the level ends
 
-## LEVEL ONE challenges
+## LEVEL ONE — Multiple choice, optimal code
+
 ## Which of the following code snippets is the optimal way print each item in
 ## array = ["dogs", "cats", "fish", "turtles", "penguins"]
 A.  i = 0
@@ -68,3 +69,22 @@ D.  sum = 0
     while n > 0:
       sum += n
       n -= 1
+
+## LEVEL TWO — Multiple Choice, find and fix the error
+
+## Please find and fix the mistake in the following code snippet:
+## #Find the largest item in an unordered list of numbers
+## maxnumber = 0
+## for i in range 0, len(list):
+    if list[i] < maxnumber:
+      maxnumber = list[i]
+
+## Please find and fix the mistake in the following code snippet:
+
+## Please find and fix the mistake in the following code snippet:
+
+
+## LEVEL THREE - User input
+
+
+## LEVEL FOUR - User input
