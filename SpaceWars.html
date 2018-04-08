@@ -27,6 +27,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let sPressed = false;
     let score = 0;
     let checkTime = 0;
+    let sound = new Audio("background.mp3"); // buffers automatically when created
 
     // Asteroid will have a radius of 10px
 	  let asteroidRadius = 40;
@@ -284,6 +285,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         let spaceship = document.getElementById("spaceship");
         let asteroid = document.getElementById("asteroid");
         let alien = document.getElementById("alien");
+        sound.play();
         draw();  // draw something on the canvas
     }
 
