@@ -10,6 +10,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
 <title>SpaceWars2050</title>
 <link href="/css/style.css" rel="stylesheet">
 <img id="spaceship" width="0" height="0" src="spaceship.png" alt="SpaceShip">
+<link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
 <script>
     let canvas;    // DOM object corresponding to the canvas
     let graphics;  // 2D graphics context for drawing on the canvas
@@ -104,7 +105,13 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     }
     
     function drawScore() {
-    graphics.fillText("Score: "+score, 8, 20);
+    WebFontConfig = {
+      google: {
+        families: ['Dosis Semi-Bold']
+      }
+    };
+    graphics.font = "25px Dosis"
+    graphics.fillText("Score: "+score, 8, 25);
 }
 
     function getRandomInt(min, max) {
