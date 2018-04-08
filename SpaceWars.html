@@ -37,12 +37,12 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let alienY = 0;
 
     // And when the asteroid moves, we'll shift 2px at a time
-    let ast_dx = 10;
-    let ast_dy = 10;
+    let ast_dx = 5;
+    let ast_dy = 5;
 
     // And when the alien moves, we'll shift 2px at a time
-    let alien_dx = 10;
-    let alien_dy = 10;
+    let alien_dx = 5;
+    let alien_dy = 5;
 
     // Add event listeners for keydown and keyup events.
     document.addEventListener("keydown", keyDownHandler, false);
@@ -195,9 +195,9 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     }
     
     function collisionDetection() {
-     if (((asteroidX >= spaceship_x) && (asteroidX <= spaceship_y + 10) 
+     if (((asteroidX >= spaceship_x) && (asteroidX <= spaceship_x + 10) 
       && (asteroidY >= spaceship_y) && (asteroidY <= spaceship_y + 10)) ||
-     ((alienX >= spaceship_x) && (alienX <= spaceship_y + 10) 
+     ((alienX >= spaceship_x) && (alienX <= spaceship_x + 10) 
       && (alienY >= spaceship_y) && (alienY <= spaceship_y + 10))){
 			alert ("You lose!");
 			document.location.reload();
