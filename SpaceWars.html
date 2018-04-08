@@ -135,6 +135,10 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     graphics.fillText("Score: "+score, 8, 25);
     }
 
+    function drawExplosion() {
+    graphics.drawImage(explosion, asteroidX, asteroidY, 30, 30);
+    }
+
     function getRandomInt(min, max) {
     	return Math.random() * (max - min) + min;
     }
@@ -235,7 +239,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         ((alienX + 30 >= spaceship_x - 15) && (alienX - 30 <= spaceship_x + 15)
         && (alienY + 30 >= spaceship_y - 15) && (alienY - 25 <= spaceship_y + 15))){
         
-        explosion();
+        drawExplosion();
         alert ("You lose!");
         document.location.reload();
 		}
@@ -246,19 +250,17 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       && (asteroidY + 30 >= shots[i][1] - 5) && (asteroidY - 30 <= shots[i][1] + 5)) ||
      ((alienX + 30 >= shots[i][0] - 5) && (alienX - 30 <= shots[i][0] + 5)
       && (alienY + 30 >= shots[i][1] - 5) && (alienY - 30 <= shots[i][1] + 5))){
+        drawExplosion();
       	asteroidX = getRandomInt(0, canvas.width);
       	asteroidY = 0;
       	alienX = getRandomInt(0, canvas.width);
       	alienY = 0;
       	score += 1;
-        explosion();
+        
       }
     }
   }
 
-  function explosion() {
-    graphics.drawImage(asteroid, asteroidX, asteroidY, 70, 70);
-  }
 
     function init() {
         canvas = document.getElementById("theCanvas");
