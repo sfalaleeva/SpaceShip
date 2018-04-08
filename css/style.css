@@ -5,14 +5,15 @@ background-color: black;
 .outer {
 	color: green;
 	width: 600px;
+
 	margin: auto;
 	overflow: hidden;
 }
 .inner {
-	background-image: url('stars.png');
+	background-image: url('/stars.png');
 	position: relative;
 	width: 600px;
-	height: 1800px;
+	height: 1200px;
 	animation-name: scroll;
 	animation-duration: 3s; /* how long it takes for animation to finish */
 	animation-iteration-count: infinite;
@@ -26,6 +27,6 @@ background-color: black;
 
 canvas {
 	position: absolute;
-	width: 600;
-	
+	top: 0;
+	margin: auto;
 }
