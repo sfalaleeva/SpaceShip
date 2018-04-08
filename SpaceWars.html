@@ -8,9 +8,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
 <html>
 <head>
 <title>SpaceWars2050</title>
-<link href="spaceWars.css" ref="stylesheet">
+<link href="/css/style.css" rel="stylesheet">
 <img id="spaceship" width="20" height="20" src="spaceship.png" alt="SpaceShip">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
     let canvas;    // DOM object corresponding to the canvas
     let graphics;  // 2D graphics context for drawing on the canvas
@@ -198,6 +197,9 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
 </script>
 </head>
 <body onload="init()">
-    <canvas id="theCanvas" width="900" height="500"></canvas>
+  <div class="outer">
+    <div class="inner"></div>
+  </div>
+  <canvas id="theCanvas" width="900" height="500"></canvas>
 </body>
 </html>

@@ -1,0 +1,31 @@
+body { 
+background-color: black;
+}
+/* inside super long div that should be the picture being repeated a billion times */
+.outer {
+	color: green;
+	width: 600px;
+	margin: auto;
+	overflow: hidden;
+}
+.inner {
+	background-image: url('stars.png');
+	position: relative;
+	width: 600px;
+	height: 1800px;
+	animation-name: scroll;
+	animation-duration: 3s; /* how long it takes for animation to finish */
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+@keyframes scroll {
+	from {top: -500px;}
+	to {top: 0px;}
+}
+
+canvas {
+	position: absolute;
+	width: 600;
+	
+}
