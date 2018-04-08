@@ -18,6 +18,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let spaceship_x = 550;
     let spaceship_y = 550;
     let shots = [];
+    let lives = 3;
 
     let rightPressed = false;
     let leftPressed = false;
@@ -86,6 +87,16 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       //graphics.fillRect(225, 480, 15, 15);
       //graphics.fillRect(x, y, 15, 15);
     }
+
+    /* -------------------------------------------------
+    Draw the lives in the upper left hand corner
+    -------------------------------------------------- */
+    function drawLives(){
+      for (i=0; i<lives; i++){
+        graphics.drawImage(spaceship, 0+(i*10), 15, 15,15);
+      }
+    }
+
     /* -------------------------------------------------
     Draw a circle on the canvas to represent the asteroid
     ------------------------------------------------- */
