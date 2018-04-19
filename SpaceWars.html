@@ -14,6 +14,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
 <img id="asteroid" width="0" height="0" src="asteroid.png" alt="Asteroid">
 <img id="alien" width="0" height="0" src="alien.png" alt="Alien">
 <img id="explosion" width="0" height="0" src="explosion.png" alt="Explosion">
+<img id="greenshield" width="0" height="0" src="GreenShield.png" alt="Green Shield">
+<img id="redshield" width="0" height="0" src="RedShield.png" alt="Red Shield">
 <script>
     let canvas;    // DOM object corresponding to the canvas
     let graphics;  // 2D graphics context for drawing on the canvas
@@ -58,6 +60,10 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let explosionTime = -1;
     let explosionSize = 60;
 
+    // variables to keep track of the state of the shield. 0=no shield,
+    //1=red shield, 2=green shield
+    let shield = 2;
+
     // Add event listeners for keydown and keyup events.
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
@@ -89,13 +95,27 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       }
     }
 
+    /* -------------------------------------------------
+    Draw the spaceship image at x, y
+    -------------------------------------------------- */
     function drawSpaceship(x, y){
       graphics.drawImage(spaceship, x, y, 50, 50);
-      //graphics.fillStyle = "Red";
-      //graphics.fillRect(225, 480, 15, 15);
-      //graphics.fillRect(x, y, 15, 15);
     }
 
+    /* -----------------------------------------------------------------
+    Draw the shield image at x, y. red if shield==1, green if shield==2
+    -------------------------------------------------------------------- */
+    function drawShield(x, y){
+      if (shield == 1) {
+        graphics.drawImage(redshield, x, y, 50, 50);
+      } else if (shield == 2) {
+        graphics.drawImage(greenshield, x, y, 50, 50);
+      }
+    }
+
+    /* -------------------------------------------------
+    Draw lines representing the shots at x, y
+    -------------------------------------------------- */
      function drawShooting(x, y){
       graphics.fillRect(x, y, 10, 10);
       graphics.fillStyle = "Red";
@@ -113,7 +133,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     }
 
     /* -------------------------------------------------
-    Draw a circle on the canvas to represent the asteroid
+    Draw an asteroid image on the canvas
     ------------------------------------------------- */
     function drawAsteroid() {
     	//graphics.beginPath();
@@ -123,7 +143,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       graphics.drawImage(asteroid, asteroidX, asteroidY, 70, 70);
     }
     /* -------------------------------------------------
-    Draw a circle on the canvas to represent the asteroid
+    Draw an alien image on the canvas
     ------------------------------------------------- */
     function drawAlien() {
     	//graphics.beginPath();
@@ -133,6 +153,9 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       graphics.drawImage(alien, alienX, alienY, 70, 70);
     }
 
+    /* -------------------------------------------------
+    Draw the score in the upper lefthand corner above lives
+    -------------------------------------------------- */
     function drawScore() {
     WebFontConfig = {
       google: {
@@ -142,7 +165,10 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     graphics.font = "25px Dosis"
     graphics.fillText("Score: "+score, 8, 25);
     }
-    
+
+    /* -------------------------------------------------
+    Draw the message that appears when you lose
+    -------------------------------------------------- */
     function drawLose() {
     graphics.font = "60px Arial";
     graphics.fillStyle = "red";
@@ -161,7 +187,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       if (rightPressed && spaceship_x <canvas.width-15){
         spaceship_x += 5;
       }
-      // If spaceship shoul be moving left and is not at the left wall
+      // If spaceship should be moving left and is not at the left wall
       else if (leftPressed && spaceship_x > 0){
         spaceship_x -= 5;
       }
@@ -175,16 +201,16 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
 
       drawExplosion();
       drawSpaceship(spaceship_x, spaceship_y);
+      drawShield(spaceship_x, spaceship_y);
       drawLives();
 
       for (i = 0; i < shots.length; i++) {
-       drawShooting(shots[i][0], shots[i][1]);
-       shots[i][1] -= 5;
-
+        drawShooting(shots[i][0], shots[i][1]);
+        shots[i][1] -= 5;
         if(shots[i][1] + 5 < 10) {
-        shots.splice(i, 1);
-    }
-    }
+          shots.splice(i, 1);
+        }
+      }
     	// Draw various game components
     	drawAsteroid();
     	drawAlien();
@@ -258,7 +284,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     }
 
     function collisionDetection() {
-    
+
 
     // if spaceship hits asteroid
       if (((asteroidX + 25 >= spaceship_x - 15) && (asteroidX - 25 <= spaceship_x + 15)
@@ -271,7 +297,15 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
           drawLose();
           cancelAnimationFrame();
         }
-        lives = lives - 1;
+        // Update the state of the shield
+        if (shield == 2) {
+          shield = 1;
+        } else if (shield == 1) {
+          shield = 0;
+        } else {
+          lives = lives - 1;
+        }
+        //lives = lives - 1;
         asteroidX = getRandomInt(0, canvas.width);
         asteroidY = 0;
       }
@@ -287,7 +321,15 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
           drawLose();
           cancelAnimationFrame();
         }
-        lives = lives - 1;
+        // Update the state of the shield
+        if (shield == 2) {
+          shield = 1;
+        } else if (shield == 1) {
+          shield = 0;
+        } else {
+          lives = lives - 1;
+        }
+        //lives = lives - 1;
         alienX = getRandomInt(0, canvas.width);
         alienY = 0;
     }
@@ -308,7 +350,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         cancelAnimationFrame();
         }
       }
-     
+
       else if ((alienX + 33 >= shots[i][0] - 5) && (alienX - 33 <= shots[i][0] + 5)
       && (alienY + 33 >= shots[i][1] - 5) && (alienY - 33 <= shots[i][1] + 5)) {
         explosionX = alienX;
