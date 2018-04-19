@@ -5,8 +5,8 @@ background-color: black;
 .outer {
 	color: green;
 	width: 600px;
-
-	margin: auto;
+	height: 900px;
+	/*margin: auto;*/
 	overflow: hidden;
 }
 .inner {
