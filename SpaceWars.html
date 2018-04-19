@@ -360,16 +360,25 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         alienY = 0;
     }
 
-    // If the powerup hits the bottom of the screen, or collides with you,
-    // create new backoff, new random x, set y = 0, set drawing = false, set shield == 2
+    // If the powerup collides with you, set new backoff, new random x,
+    // set y = 0, set drawing = false, set shield == 2
+    // If it collides with the bottom of the screen, set new backoff, new random x,
+    // set y = 0, set drawing = false
     if ((powerupX + 25 >= spaceship_x - 15) && (powerupX - 25 <= spaceship_x + 15)
-        && (powerupY + 25 >= spaceship_y - 15) && (powerupY - 25 <= spaceship_y + 15)) {
-          console.log("collision");
-          backoff = Math.floor(Math.random() * 100);
-          powerupX = getRandomInt(0, canvas.width);
-          powerupY = 0;
-          drawing = false;
-          shield = 2;
+    && (powerupY + 25 >= spaceship_y - 15) && (powerupY - 25 <= spaceship_y + 15)) {
+      console.log("collision");
+      backoff = Math.floor(Math.random() * 1000);
+      powerupX = getRandomInt(0, canvas.width);
+      powerupY = 0;
+      drawing = false;
+      shield = 2;
+    }
+    if ((powerupY  + 25 >= canvas.height)) {
+      console.log("bottom");
+      backoff = Math.floor(Math.random() * 1000);
+      powerupX = getRandomInt(0, canvas.width);
+      powerupY = 0;
+      drawing = false;
     }
 
     // when you shoot and hit asteroid/alien, your score goes up
