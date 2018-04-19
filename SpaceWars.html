@@ -63,6 +63,13 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     // variables to keep track of the state of the shield. 0=no shield,
     //1=red shield, 2=green shield
     let shield = 2;
+    // variable to control movement of shield power up. move 2px at a time
+    let powerupX = 400;
+    let powerupY = 0;
+    let powerup_dy = 5;
+    let powerup_dx = 0;
+    let backoff = Math.floor(Math.random() * 1000);
+    let drawing = false
 
     // Add event listeners for keydown and keyup events.
     document.addEventListener("keydown", keyDownHandler, false);
@@ -151,6 +158,14 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     	//graphics.fill();
     	//graphics.closePath();
       graphics.drawImage(alien, alienX, alienY, 70, 70);
+    }
+
+    /* -------------------------------------------------
+    Draw shield powerup image on the canvas
+    ------------------------------------------------- */
+    function drawPowerup() {
+      //console.log(powerupX, powerupY);
+      graphics.drawImage(greenshield, powerupX, powerupY, 60, 60);
     }
 
     /* -------------------------------------------------
@@ -266,6 +281,17 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         	alienX = getRandomInt(0, canvas.width);
     	}
 
+      // If shield == 0 and you are not already drawing a shield, decrement backoff
+      // Otherwise if shield == 0 and backoff == 0, draw the powerup
+      if (shield == 0 && backoff != 0 && drawing == false) {
+        backoff -= 1;
+        console.log(backoff);
+      } else if (shield == 0 && backoff == 0) {
+        drawPowerup();
+        powerupY += powerup_dy;
+        drawing = true;
+      }
+
       // Tell JS to animate frame by recursively calling
       requestAnimationFrame(draw);
     }
@@ -332,6 +358,18 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         //lives = lives - 1;
         alienX = getRandomInt(0, canvas.width);
         alienY = 0;
+    }
+
+    // If the powerup hits the bottom of the screen, or collides with you,
+    // create new backoff, new random x, set y = 0, set drawing = false, set shield == 2
+    if ((powerupX + 25 >= spaceship_x - 15) && (powerupX - 25 <= spaceship_x + 15)
+        && (powerupY + 25 >= spaceship_y - 15) && (powerupY - 25 <= spaceship_y + 15)) {
+          console.log("collision");
+          backoff = Math.floor(Math.random() * 100);
+          powerupX = getRandomInt(0, canvas.width);
+          powerupY = 0;
+          drawing = false;
+          shield = 2;
     }
 
     // when you shoot and hit asteroid/alien, your score goes up
