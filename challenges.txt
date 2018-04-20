@@ -78,11 +78,64 @@ D.  sum = 0
 ## for i in range 0, len(list):
     if list[i] < maxnumber:
       maxnumber = list[i]
+A. for i in range 0, len(list)-1:
+     if list[i] < maxnumber:
+	max number = list[i]
+B. for i in range 0, len(list):
+     if list[i] < maxnumber:
+	list[i] = maxnumber
+C. for i in 0, len(list):
+     if list[i] < maxnumber:
+     	maxnumber = list[i]
+D. for i in range 0, len(list):
+     if list[i] > maxnumber:
+     	maxnumber = list[i]
 
 ## Please find and fix the mistake in the following code snippet:
+## while x > 0:
+##   if (x == 1):
+##      x = x
+##   else:
+##      x = x-1
+
+A. while x > 0:
+     if(x > 1):
+    	 x = x
+     else:
+	x = x-1
+B. while x > 0:
+     if(x > 1):
+         x = x
+     else:
+        x = x-1
+C. while x > 0:
+     if(x > 1):
+         x = x + 1
+     else:
+        x = x-1
+D. while x > 0:
+     if(x = 1):
+         x = x
+     else:
+        x = x-1
 
 ## Please find and fix the mistake in the following code snippet:
+## userNum = input("What is your number? ")
+## newNum = userNum + 5
+## print("The new number is ", newNum)
 
+A. userNum = input(print("What is your number? "))
+   newNum = userNum + 5
+   print("The new number is ", newNum)
+B. userNum = eval(input("What is your number? "))
+   newNum = userNum + 5
+   print("The new number is ", newNum)
+C. userNum = input("What is your number? ")
+   newNum = userNum + 5
+   print("The new number is " + newNum)
+D. userNum = input("What is your number? ")
+   newNum = userNum + 5
+   println("The new number is ", newNum)
 
 ## LEVEL THREE - User input
 
