@@ -16,6 +16,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
 <img id="explosion" width="0" height="0" src="explosion.png" alt="Explosion">
 <img id="greenshield" width="0" height="0" src="GreenShield.png" alt="Green Shield">
 <img id="redshield" width="0" height="0" src="RedShield.png" alt="Red Shield">
+<img id="bullet" width="0" height="0" src="bullet.png" alt="bullet">
 <script>
     let canvas;    // DOM object corresponding to the canvas
     let graphics;  // 2D graphics context for drawing on the canvas
@@ -46,14 +47,18 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let alienX = 300;
     let alienY = 0;
 
-    // And when the asteroid moves, we'll shift 2px at a time
+    // And when the asteroid moves, we'll shift 5px at a time
     let ast_dx = 5;
     let ast_dy = 5;
 
-    // And when the alien moves, we'll shift 2px at a time
+    // And when the alien moves, we'll shift 5px at a time
     let alien_dx = 5;
     let alien_dy = 5;
-
+    
+    let bullet_on_screen = false;
+    let bulletY = 0;
+    let bulletX = 0;
+    
     // place holder for collision coordinates
     let explosionX;
     let explosionY;
@@ -149,6 +154,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     	//graphics.closePath();
       graphics.drawImage(asteroid, asteroidX, asteroidY, 70, 70);
     }
+    
     /* -------------------------------------------------
     Draw an alien image on the canvas
     ------------------------------------------------- */
@@ -159,7 +165,15 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     	//graphics.closePath();
       graphics.drawImage(alien, alienX, alienY, 70, 70);
     }
-
+    
+     /* -------------------------------------------------
+    Draw an alien bullets on the canvas
+    ------------------------------------------------- */
+    function drawAlienShoot() {
+       graphics.drawImage(bullet, bulletX, bulletY + 35, 50, 50);
+    }
+    
+    
     /* -------------------------------------------------
     Draw shield powerup image on the canvas
     ------------------------------------------------- */
@@ -280,6 +294,24 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         	alienY = 0;
         	alienX = getRandomInt(0, canvas.width);
     	}
+    	
+    	if (bullet_on_screen == false) {
+    	    let bullet_rand = getRandomInt(0, 100);
+    	    if ((bullet_rand >= 10) && (bullet_rand <= 90)) {
+    	        console.log(bullet_rand);
+    	        bullet_on_screen = true;
+    	        bulletY = alienY;
+    	        bulletX = alienX;
+    	        drawAlienShoot();
+    	       }
+    	} else {
+    	    bulletY += 15;
+    	    drawAlienShoot();
+    	}
+    	if (bulletY > canvas.height + 70) {
+    	     bullet_on_screen = false;
+    	}
+    
 
       // If shield == 0 and you are not already drawing a shield, decrement backoff
       // Otherwise if shield == 0 and backoff == 0, draw the powerup
@@ -291,6 +323,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         powerupY += powerup_dy;
         drawing = true;
       }
+      
+      
 
       // Tell JS to animate frame by recursively calling
       requestAnimationFrame(draw);
