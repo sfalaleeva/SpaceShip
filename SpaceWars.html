@@ -17,6 +17,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
 <img id="greenshield" width="0" height="0" src="GreenShield.png" alt="Green Shield">
 <img id="redshield" width="0" height="0" src="RedShield.png" alt="Red Shield">
 <img id="bullet" width="0" height="0" src="bullet.png" alt="bullet">
+<button id="mute">mute</button>
 <script>
     let canvas;    // DOM object corresponding to the canvas
     let graphics;  // 2D graphics context for drawing on the canvas
@@ -33,6 +34,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let sound = new Audio("background.mp3"); // buffers automatically when created
     let shoot_s = new Audio("shoot.wav");
     let explosion_s = new Audio("explosion.wav");
+    
     // Asteroid will have a radius of 10px
 	  let asteroidRadius = 40;
 
@@ -79,6 +81,17 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     // Add event listeners for keydown and keyup events.
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
+    //Add listener for mute button
+    document.getElementById('mute').addEventListener('click', function (evt) {
+      
+    if ( snd.muted ) {
+        snd.muted = false
+        evt.target.innerHTML = 'mute'
+     } else {
+        snd.muted = true
+        evt.target.innerHTML = 'unmute'
+     }
+     })
 
     // Create Handlers for keydown and keyup events
     function keyDownHandler(e) {
