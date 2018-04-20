@@ -1,0 +1,10 @@
+let i = 0;
+let backstory = "The year is 2050 and the human race has spread out across the stars. \n Human settlements, sometimes separated by several billion lightyears, rely on advanced space stations to communicate. \n Although humanity has made peace with most of the alien species it has encountered, a gang of rogue Crouser aliens has recently attacked these vital space stations. \n They have coruppted several vital snippets of code contained in the space station mainframes, completely disrupting humanity's ability to communicate. \n It is up to you, the Galactic Order's top coding expert, to fly to these space stations and fix the corrupted code.";
+let speed = 40;
+drawBackstory(){
+  if (i < backstory.length) {
+    document.getElementById("backstory").innerHTML += backstory.charAt(i);
+    i++;
+    setTimeout(drawBackstory, speed);
+  }
+}

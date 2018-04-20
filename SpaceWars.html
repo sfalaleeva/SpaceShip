@@ -19,6 +19,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
 <img id="bullet" width="0" height="0" src="bullet.png" alt="bullet">
 <button id="mute">mute</button>
 <script>
+
     let canvas;    // DOM object corresponding to the canvas
     let graphics;  // 2D graphics context for drawing on the canvas
     let spaceship_x = 550;
@@ -34,7 +35,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let sound = new Audio("background.mp3"); // buffers automatically when created
     let shoot_s = new Audio("shoot.wav");
     let explosion_s = new Audio("explosion.wav");
-    
+
     // Asteroid will have a radius of 10px
 	  let asteroidRadius = 40;
 
@@ -56,11 +57,11 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     // And when the alien moves, we'll shift 5px at a time
     let alien_dx = 5;
     let alien_dy = 5;
-    
+
     let bullet_on_screen = false;
     let bulletY = 0;
     let bulletX = 0;
-    
+
     // place holder for collision coordinates
     let explosionX;
     let explosionY;
@@ -83,7 +84,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     document.addEventListener("keyup", keyUpHandler, false);
     //Add listener for mute button
     document.getElementById('mute').addEventListener('click', function (evt) {
-      
+
     if ( snd.muted ) {
         snd.muted = false
         evt.target.innerHTML = 'mute'
@@ -167,7 +168,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     	//graphics.closePath();
       graphics.drawImage(asteroid, asteroidX, asteroidY, 70, 70);
     }
-    
+
     /* -------------------------------------------------
     Draw an alien image on the canvas
     ------------------------------------------------- */
@@ -178,15 +179,15 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     	//graphics.closePath();
       graphics.drawImage(alien, alienX, alienY, 70, 70);
     }
-    
+
      /* -------------------------------------------------
     Draw an alien bullets on the canvas
     ------------------------------------------------- */
     function drawAlienShoot() {
        graphics.drawImage(bullet, bulletX, bulletY + 35, 50, 50);
     }
-    
-    
+
+
     /* -------------------------------------------------
     Draw shield powerup image on the canvas
     ------------------------------------------------- */
@@ -307,7 +308,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         	alienY = 0;
         	alienX = getRandomInt(0, canvas.width);
     	}
-    	
+
     	if (bullet_on_screen == false) {
     	    let bullet_rand = getRandomInt(0, 100);
     	    if ((bullet_rand >= 10) && (bullet_rand <= 90)) {
@@ -324,7 +325,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     	if (bulletY > canvas.height + 70) {
     	     bullet_on_screen = false;
     	}
-    
+
 
       // If shield == 0 and you are not already drawing a shield, decrement backoff
       // Otherwise if shield == 0 and backoff == 0, draw the powerup
@@ -336,8 +337,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         powerupY += powerup_dy;
         drawing = true;
       }
-      
-      
+
+
 
       // Tell JS to animate frame by recursively calling
       requestAnimationFrame(draw);
@@ -393,7 +394,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         if (lives == 0) {
           drawLose();
           cancelAnimationFrame();
-        }  
+        }
         // Update the state of the shield
         if (shield == 2) {
           shield = 1;
@@ -406,7 +407,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         alienX = getRandomInt(0, canvas.width);
         alienY = 0;
     }
-    
+
     // if spaceship hits bullet
     else if ((bulletX + 15 >= spaceship_x - 15) && (bulletX - 15 <= spaceship_x + 15)
         && (bulletY + 15 >= spaceship_y - 15) && (bulletY - 15 <= spaceship_y + 15)) {
@@ -417,7 +418,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         if (lives == 0) {
           drawLose();
           cancelAnimationFrame();
-        }  
+        }
         // Update the state of the shield
         if (shield == 2) {
           shield = 1;
