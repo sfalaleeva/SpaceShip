@@ -17,7 +17,6 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
 <img id="greenshield" width="0" height="0" src="GreenShield.png" alt="Green Shield">
 <img id="redshield" width="0" height="0" src="RedShield.png" alt="Red Shield">
 <img id="bullet" width="0" height="0" src="bullet.png" alt="bullet">
-<button id="mute">mute</button>
 <script>
 
     let canvas;    // DOM object corresponding to the canvas
@@ -30,6 +29,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let rightPressed = false;
     let leftPressed = false;
     let sPressed = false;
+    let mutePressed = false;
     let score = 0;
     let checkTime = 0;
     let sound = new Audio("background.mp3"); // buffers automatically when created
@@ -85,16 +85,6 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     // Add event listeners for keydown and keyup events.
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
-    //Add listener for mute button
-    document.getElementById('mute').addEventListener('click', function (evt) {
-      if ( snd.muted ) {
-        snd.muted = false;
-        evt.target.innerHTML = 'mute';
-      } else {
-        snd.muted = true;
-        evt.target.innerHTML = 'unmute';
-      }
-    });
 
     // Create Handlers for keydown and keyup events
     function keyDownHandler(e) {
@@ -114,8 +104,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         }
       } else if (e.keyCode == 89 && !playing) {
         playing = true;
-        //graphics.clearRect(0, 0, canvas.width, canvas.height);
-        //graphics.font = "15px Ariel";
+      } else if (e.keyCode == 77){
+        mutePressed = true;
       }
     }
 
@@ -128,6 +118,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         sPressed = false;
       } else if (e.keyCode == 89) {
         drawBackstory();
+      } else if (e.keyCode == 77){
+        mutePressed = false;
       }
     }
 
@@ -144,6 +136,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     Draw the backstory, then start the game
     --------------------------------------------------- */
     function drawBackstory() {
+      console.log("backstory");
       graphics.clearRect(0, 0, canvas.width, canvas.height);
       graphics.font = "20px Ariel";
       graphics.fillText("The year is 2050 and the human race has spread out across the stars.", 10, 50);
@@ -155,6 +148,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       graphics.fillText("of code contained in the space station mainframes, completely disrupting", 10, 170);
       graphics.fillText("humanity's ability to communicate. It is up to you, the Galactic Order's", 10, 190);
       graphics.fillText("top coding expert, to fly to these space stations and fix the corrupted code.", 10, 210);
+      setTimeout(draw(), 5000);
     }
     /*
     let backstory = ["The year is 2050 and the human race has spread out across the stars.", "Human settlements, sometimes separated by several billion lightyears, rely on advanced space stations to communicate.", "Although humanity has made peace with most of the alien species it has encountered, a gang of rogue Crouser aliens has recently attacked these vital space stations.", "They have coruppted several vital snippets of code contained in the space station mainframes, completely disrupting humanity's ability to communicate.", "It is up to you, the Galactic Order's top coding expert, to fly to these space stations and fix the corrupted code."];
@@ -253,13 +247,13 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     Draw the score in the upper lefthand corner above lives
     -------------------------------------------------- */
     function drawScore() {
-      WebFontConfig = {
-        google: {
-          families: ['Dosis Semi-Bold']
-        }
-      };
-      graphics.font = "25px Dosis"
-      graphics.fillText("Score: "+score, 8, 25);
+    WebFontConfig = {
+      google: {
+        families: ['Dosis Semi-Bold']
+      }
+    };
+    graphics.font = "25px Dosis"
+    graphics.fillText("Score: "+score, 500, 25);
     }
 
     /* -------------------------------------------------
@@ -269,6 +263,16 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       graphics.font = "60px Arial";
       graphics.fillStyle = "red";
       graphics.fillText("GAME OVER :(",100,300);
+    }
+
+    function drawMute() {
+     WebFontConfig = {
+      google: {
+        families: ['Dosis Semi-Bold']
+      }
+    };
+    graphics.font = "25px Dosis";
+    graphics.fillText("Press m to mute", 8, 25);
     }
 
     function getRandomInt(min, max) {
@@ -293,6 +297,17 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
           shoot_s.play();
         }
       }
+      if (mutePressed) {
+        if ((sound.muted) && (shoot_s.muted) && (explosion_s)){
+           sound.muted = false;
+           shoot_s.muted = false;
+           explosion_s.muted = false;
+     } else {
+        sound.muted = true;
+        shoot_s.muted = true;
+        explosion_s.muted = true;
+     }
+     }
 
       drawExplosion();
       drawSpaceship(spaceship_x, spaceship_y);
@@ -307,9 +322,12 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         }
       }
     	// Draw various game components
+    	drawScore();
+    	drawMute();
     	drawAsteroid();
     	drawAlien();
     	drawScore();
+
     	collisionDetection();
     	// If the asteroid hits the LEFT/RIGHT WALL,
     	// switch horizontal travel direction
@@ -559,6 +577,5 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     <canvas id="theCanvas" width="600" height="1200"></canvas>
 
   </div>
-
 </body>
 </html>
