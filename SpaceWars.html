@@ -17,7 +17,6 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
 <img id="greenshield" width="0" height="0" src="GreenShield.png" alt="Green Shield">
 <img id="redshield" width="0" height="0" src="RedShield.png" alt="Red Shield">
 <img id="bullet" width="0" height="0" src="bullet.png" alt="bullet">
-<button id="mute">mute</button>
 <script>
     let canvas;    // DOM object corresponding to the canvas
     let graphics;  // 2D graphics context for drawing on the canvas
@@ -29,6 +28,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let rightPressed = false;
     let leftPressed = false;
     let sPressed = false;
+    let mutePressed = false;
     let score = 0;
     let checkTime = 0;
     let sound = new Audio("background.mp3"); // buffers automatically when created
@@ -76,22 +76,12 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let powerup_dy = 5;
     let powerup_dx = 0;
     let backoff = Math.floor(Math.random() * 1000);
-    let drawing = false
+    let drawing = false;
 
     // Add event listeners for keydown and keyup events.
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
-    //Add listener for mute button
-    document.getElementById('mute').addEventListener('click', function (evt) {
-      
-    if ( snd.muted ) {
-        snd.muted = false
-        evt.target.innerHTML = 'mute'
-     } else {
-        snd.muted = true
-        evt.target.innerHTML = 'unmute'
-     }
-     })
+    
 
     // Create Handlers for keydown and keyup events
     function keyDownHandler(e) {
@@ -107,6 +97,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         sPressed = true;
         checkTime =currentTime.getTime();
     }
+      } else if (e.keyCode == 77){
+        mutePressed = true;
       }
     }
 
@@ -117,6 +109,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         leftPressed = false;
       } else if (e.keyCode == 83) {
       sPressed = false;
+      } else if (e.keyCode == 77){
+        mutePressed = false;
       }
     }
 
@@ -205,7 +199,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       }
     };
     graphics.font = "25px Dosis"
-    graphics.fillText("Score: "+score, 8, 25);
+    graphics.fillText("Score: "+score, 500, 25);
     }
 
     /* -------------------------------------------------
@@ -216,7 +210,16 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     graphics.fillStyle = "red";
     graphics.fillText("GAME OVER :(",100,300);
     }
-
+    
+    function drawMute() {
+     WebFontConfig = {
+      google: {
+        families: ['Dosis Semi-Bold']
+      }
+    };
+    graphics.font = "25px Dosis";
+    graphics.fillText("Press m to mute", 8, 25);
+    }
 
     function getRandomInt(min, max) {
     	return Math.random() * (max - min) + min;
@@ -240,7 +243,18 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       shoot_s.play();
       }
       }
-
+      if (mutePressed) {  
+        if ((sound.muted) && (shoot_s.muted) && (explosion_s)){
+           sound.muted = false;
+           shoot_s.muted = false;
+           explosion_s.muted = false;
+     } else {
+        sound.muted = true;
+        shoot_s.muted = true;
+        explosion_s.muted = true;
+     }
+     }
+     
       drawExplosion();
       drawSpaceship(spaceship_x, spaceship_y);
       drawShield(spaceship_x, spaceship_y);
@@ -254,10 +268,11 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         }
       }
     	// Draw various game components
+    	drawScore();
+    	drawMute(); 
     	drawAsteroid();
     	drawAlien();
-    	drawScore();
-
+    	
     	collisionDetection();
 
     	// If the asteroid hits the LEFT/RIGHT WALL,
@@ -504,6 +519,5 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     <div class="inner"></div>
     <canvas id="theCanvas" width="600" height="1200"></canvas>
   </div>
-
 </body>
 </html>
