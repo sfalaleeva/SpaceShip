@@ -30,6 +30,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let leftPressed = false;
     let sPressed = false;
     let mutePressed = false;
+    let hPressed = false;
+    let xPressed = false;
     let score = 0;
     let checkTime = 0;
     let sound = new Audio("background.mp3"); // buffers automatically when created
@@ -99,7 +101,11 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     }
       } else if (e.keyCode == 77){
         mutePressed = true;
-      }
+      } else if (e.keyCode == 72){
+        hPressed = true;
+        } else if (e.keyCode == 88){
+        xPressed = true;
+        }
     }
 
     function keyUpHandler(e) {
@@ -111,7 +117,9 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       sPressed = false;
       } else if (e.keyCode == 77){
         mutePressed = false;
-      }
+      } else if (e.keyCode == 88){
+        xPressed = false;
+        }
     }
 
     /* -------------------------------------------------
@@ -206,23 +214,29 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     Draw the message that appears when you lose
     -------------------------------------------------- */
     function drawLose() {
-    graphics.font = "60px Arial";
+    graphics.font = "60px Dosis";
     graphics.fillStyle = "red";
     graphics.fillText("GAME OVER :(",100,300);
     }
     
-    function drawMute() {
-     WebFontConfig = {
-      google: {
-        families: ['Dosis Semi-Bold']
-      }
-    };
+    function drawMuteHelp() {
     graphics.font = "25px Dosis";
-    graphics.fillText("Press m to mute", 8, 25);
+    graphics.fillText("Press m to mute & h for help", 8, 25);
     }
 
     function getRandomInt(min, max) {
     	return Math.random() * (max - min) + min;
+    }
+    
+    function drawHelp () {
+    graphics.font = "25px Dosis";
+    graphics.fillStyle = "red";
+    graphics.fillText("Press s to shoot at aliens and asteroids.", 50, 200);
+    graphics.fillText("You can grab shields by moving in front of it.", 50, 250);
+    graphics.fillText("You have 3 lives.", 50, 300);
+    graphics.fillText("Also, each shield protects you from two hits.", 50, 350);
+    graphics.fillText("You get coding challenges after each 10 points.", 50, 400);
+    graphics.fillText("Press x to go back to the game.", 50, 450);
     }
 
     function draw(){
@@ -269,7 +283,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       }
     	// Draw various game components
     	drawScore();
-    	drawMute(); 
+    	drawMuteHelp(); 
     	drawAsteroid();
     	drawAlien();
     	
@@ -466,6 +480,15 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       powerupY = 0;
       drawing = false;
     }
+    
+     if (hPressed) {
+         drawHelp();
+         cancelAnimationFrame(draw);  
+         if (xPressed){
+          hPressed = false;
+          requestAnimationFrame(draw);
+     }
+     }
 
     // when you shoot and hit asteroid/alien, your score goes up
 		for (i = 0; i < shots.length; i++) {
