@@ -81,6 +81,9 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let backoff = Math.floor(Math.random() * 1000);
     let drawing = false;
 
+    // Are you already playing the game?
+    let playing = false;
+
     // Add event listeners for keydown and keyup events.
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
@@ -89,16 +92,20 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     function keyDownHandler(e) {
       // e.keyCode == 39 (right arrow key)
       // e.keyCode == 37 (left arrow key)
+      // e.keyCode == 83 (s key)
+      // e.keyCode == 89 (y key)
       if (e.keyCode == 39) {
         rightPressed = true;
       } else if (e.keyCode == 37) {
         leftPressed = true;
       } else if (e.keyCode == 83) {
-      let currentTime = new Date();
-      if((currentTime.getTime() - checkTime) > 100){
-        sPressed = true;
-        checkTime =currentTime.getTime();
-    }
+        let currentTime = new Date();
+        if((currentTime.getTime() - checkTime) > 100){
+          sPressed = true;
+          checkTime =currentTime.getTime();
+        }
+      } else if (e.keyCode == 89 && !playing) {
+        playing = true;
       } else if (e.keyCode == 77){
         mutePressed = true;
       } else if (e.keyCode == 72){
@@ -114,13 +121,60 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       } else if (e.keyCode == 37) {
         leftPressed = false;
       } else if (e.keyCode == 83) {
-      sPressed = false;
+        sPressed = false;
+      } else if (e.keyCode == 89) {
+        drawBackstory();
       } else if (e.keyCode == 77){
         mutePressed = false;
       } else if (e.keyCode == 88){
         xPressed = false;
         }
     }
+
+    /* -------------------------------------------------
+    Draw the start message
+    -------------------------------------------------- */
+    function drawStart(){
+      graphics.font = "60px Arial";
+      graphics.fillStyle = "red";
+      graphics.fillText("Press y to start",100,300);
+    }
+
+    /* --------------------------------------------------
+    Draw the backstory, then start the game
+    --------------------------------------------------- */
+    function drawBackstory() {
+      console.log("backstory");
+      graphics.clearRect(0, 0, canvas.width, canvas.height);
+      graphics.font = "20px Ariel";
+      graphics.fillText("The year is 2050 and the human race has spread out across the stars.", 10, 50);
+      graphics.fillText("Human settlements, sometimes separated by several billion lightyears,", 10, 70);
+      graphics.fillText(" rely on advanced space stations to communicate.", 10, 90);
+      graphics.fillText("Although humanity has made peace with most of the alien species it has", 10, 110);
+      graphics.fillText("encountered, a gang of rogue Crouser aliens has recently attacked", 10, 130);
+      graphics.fillText("these vital space stations. They have coruppted several vital snippets", 10, 150);
+      graphics.fillText("of code contained in the space station mainframes, completely disrupting", 10, 170);
+      graphics.fillText("humanity's ability to communicate. It is up to you, the Galactic Order's", 10, 190);
+      graphics.fillText("top coding expert, to fly to these space stations and fix the corrupted code.", 10, 210);
+      setTimeout(draw(), 5000);
+    }
+    /*
+    let backstory = ["The year is 2050 and the human race has spread out across the stars.", "Human settlements, sometimes separated by several billion lightyears, rely on advanced space stations to communicate.", "Although humanity has made peace with most of the alien species it has encountered, a gang of rogue Crouser aliens has recently attacked these vital space stations.", "They have coruppted several vital snippets of code contained in the space station mainframes, completely disrupting humanity's ability to communicate.", "It is up to you, the Galactic Order's top coding expert, to fly to these space stations and fix the corrupted code."];
+    let speed = 40;
+    let message = "";
+    function drawBackstory(j, k){
+      for (j;j<backstory.length;j++) {
+        if (k < backstory[j].length) {
+          //console.log(k);
+          message += backstory[j].charAt(k);
+          k++;
+          graphics.fillText(message, 10, 50 + (j*10));
+          setTimeout(drawBackstory(j,k), speed);
+        }
+        k = 0;
+      }
+    }*/
+
 
     /* -------------------------------------------------
     Draw the spaceship image at x, y
@@ -144,8 +198,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     Draw lines representing the shots at x, y
     -------------------------------------------------- */
      function drawShooting(x, y){
-      graphics.fillRect(x, y, 10, 10);
-      graphics.fillStyle = "Red";
+       graphics.fillRect(x, y, 10, 10);
+       graphics.fillStyle = "Red";
       //graphics.fillRect(225, 480, 15, 15);
       //graphics.fillRect(x, y, 15, 15);
     }
@@ -220,6 +274,11 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     }
     
     function drawMuteHelp() {
+     WebFontConfig = {
+      google: {
+        families: ['Dosis Semi-Bold']
+      }
+    };
     graphics.font = "25px Dosis";
     graphics.fillText("Press m to mute & h for help", 8, 25);
     }
@@ -251,13 +310,13 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         spaceship_x -= 5;
       }
       if (sPressed){
-      if (shots.length < 20){
-      let new_shoot = [spaceship_x+20, spaceship_y];
-      shots.push(new_shoot);
-      shoot_s.play();
+        if (shots.length < 20){
+          let new_shoot = [spaceship_x+20, spaceship_y];
+          shots.push(new_shoot);
+          shoot_s.play();
+        }
       }
-      }
-      if (mutePressed) {  
+      if (mutePressed) {
         if ((sound.muted) && (shoot_s.muted) && (explosion_s)){
            sound.muted = false;
            shoot_s.muted = false;
@@ -268,7 +327,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         explosion_s.muted = true;
      }
      }
-     
+
       drawExplosion();
       drawSpaceship(spaceship_x, spaceship_y);
       drawShield(spaceship_x, spaceship_y);
@@ -286,15 +345,15 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     	drawMuteHelp(); 
     	drawAsteroid();
     	drawAlien();
-    	
-    	collisionDetection();
+    	drawScore();
 
+    	collisionDetection();
     	// If the asteroid hits the LEFT/RIGHT WALL,
     	// switch horizontal travel direction
     	if(asteroidX > canvas.width + asteroidRadius){
-        	asteroidX = canvas.width;
-        	asteroidY = 0;
-        	ast_dx = -2
+        asteroidX = canvas.width;
+        asteroidY = 0;
+        ast_dx = -2
     	}
     	if(asteroidX < -asteroidRadius){
     		asteroidX = 0;
@@ -482,11 +541,9 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     }
     
      if (hPressed) {
-         drawHelp();
-         cancelAnimationFrame(draw);  
+         drawHelp(); 
          if (xPressed){
           hPressed = false;
-          requestAnimationFrame(draw);
      }
      }
 
@@ -531,7 +588,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         let asteroid = document.getElementById("asteroid");
         let alien = document.getElementById("alien");
         sound.play();
-        draw();  // draw something on the canvas
+        drawStart();
+        //draw();  // draw something on the canvas
     }
 
 
@@ -539,8 +597,11 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
 </head>
 <body onload="init()">
   <div class="outer">
+
     <div class="inner"></div>
+
     <canvas id="theCanvas" width="600" height="1200"></canvas>
+
   </div>
 </body>
 </html>
