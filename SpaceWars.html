@@ -216,8 +216,6 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
      function drawShooting(x, y){
        graphics.fillRect(x, y, 10, 10);
        graphics.fillStyle = "Red";
-      //graphics.fillRect(225, 480, 15, 15);
-      //graphics.fillRect(x, y, 15, 15);
     }
 
     /* -------------------------------------------------
@@ -233,10 +231,6 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     Draw an asteroid image on the canvas
     ------------------------------------------------- */
     function drawAsteroid() {
-    	//graphics.beginPath();
-    	//graphics.arc(asteroidX, asteroidY, asteroidRadius, 0, Math.PI*2);
-    	//graphics.fill();
-    	//graphics.closePath();
       graphics.drawImage(asteroid, asteroidX, asteroidY, 70, 70);
     }
 
@@ -244,10 +238,6 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     Draw an alien image on the canvas
     ------------------------------------------------- */
     function drawAlien() {
-    	//graphics.beginPath();
-    	//graphics.arc(alienX, alienY, alienRadius, 0, Math.PI*2);
-    	//graphics.fill();
-    	//graphics.closePath();
       graphics.drawImage(alien, alienX, alienY, 70, 70);
     }
 
@@ -263,7 +253,6 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     Draw shield powerup image on the canvas
     ------------------------------------------------- */
     function drawPowerup() {
-      //console.log(powerupX, powerupY);
       graphics.drawImage(greenshield, powerupX, powerupY, 60, 60);
     }
 
@@ -577,7 +566,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         score += 1;
 
         if (score > 10){
-        cancelAnimationFrame();
+        
         }
       }
 
@@ -592,7 +581,10 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         score += 1;
 
         if (score > 10){
-        cancelAnimationFrame();
+        var button1 = document.getElementById('button1');
+        var displaySetting = button1.style.display;
+        button1.style.display = 'none';
+        
         }
       }
     }

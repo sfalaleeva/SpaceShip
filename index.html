@@ -112,6 +112,7 @@
   </style>
 
   <script>
+        
     function MoveOver(){
       document.getElementById("game").setAttribute("class", "leftSide");
       document.getElementById("challenge").setAttribute("class", "rightSide");
@@ -169,6 +170,9 @@ onclick ="MoveOver()"> Click me </button>
 
       Type your solution here
       <script>
+      var button1 = document.getElementById('button1');
+      var displaySetting = button1.style.display;
+      button1.style.display = 'block';
       /*var aceEditor = window.ace.edit(divElement);*/
 
       document.getElementById("input").addEventListener("click", handler);

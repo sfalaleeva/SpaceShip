@@ -1,4 +1,4 @@
-body { 
+body {
 background-color: black;
 }
 /* inside super long div that should be the picture being repeated a billion times */
@@ -26,7 +26,7 @@ background-color: black;
 }
 
 canvas {
-	position: absolute;
+	position: relative;
 	top: 0;
 	margin: auto;
 }
