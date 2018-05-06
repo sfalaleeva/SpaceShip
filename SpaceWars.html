@@ -362,7 +362,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         ast_dx = -2
     	}
     	if(asteroidX < -asteroidRadius){
-    		asteroidX = 0;
+    	asteroidX = 0;
         asteroidY = 0;
         ast_dx = 2;
     	}
@@ -570,9 +570,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
           var displaySetting = button1.style.display;
           button1.style.display = 'none';
         }
-      }
-
-      else if ((alienX + 33 >= shots[i][0] - 5) && (alienX - 33 <= shots[i][0] + 5)
+      } else if ((alienX + 33 >= shots[i][0] - 5) && (alienX - 33 <= shots[i][0] + 5)
       && (alienY + 33 >= shots[i][1] - 5) && (alienY - 33 <= shots[i][1] + 5)) {
         explosionX = alienX;
         explosionY = alienY+10;
