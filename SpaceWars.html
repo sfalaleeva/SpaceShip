@@ -118,7 +118,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         xPressed = true;
       } else if (e.keyCode == 80) {
         pPressed = true;
-      } 
+      }
     }
 
     function keyUpHandler(e) {
@@ -132,19 +132,19 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         drawBackstory();
       } else if (e.keyCode == 77){
         mutePressed = false;
-      } else if (e.keyCode == 88){ 
+      } else if (e.keyCode == 88){
         xPressed = false;
       } else if (e.keyCode == 80) { //pause the game
-        
+
         pPressed = false;
         if (playing == true) {
-          cancelAnimationFrame(requestId); 
+          cancelAnimationFrame(requestId);
           playing = false;
         } else if (playing == false) {
-          requestId = requestAnimationFrame(draw); 
+          requestId = requestAnimationFrame(draw);
           playing = true;
-        }    
-      } 
+        }
+      }
     }
 
     /* -------------------------------------------------
@@ -277,7 +277,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     graphics.fillStyle = "red";
     graphics.fillText("GAME OVER :(",100,300);
     }
-    
+
     function drawMuteHelp() {
      WebFontConfig = {
       google: {
@@ -291,7 +291,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     function getRandomInt(min, max) {
     	return Math.random() * (max - min) + min;
     }
-    
+
     function drawHelp () {
     graphics.font = "25px Dosis";
     graphics.fillStyle = "red";
@@ -347,7 +347,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       }
     	// Draw various game components
     	drawScore();
-    	drawMuteHelp(); 
+    	drawMuteHelp();
     	drawAsteroid();
     	drawAlien();
     	drawScore();
@@ -545,9 +545,9 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       powerupY = 0;
       drawing = false;
     }
-    
+
      if (hPressed) {
-         drawHelp(); 
+         drawHelp();
          if (xPressed){
           hPressed = false;
      }
@@ -566,7 +566,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         score += 1;
 
         if (score > 10){
-        
+
         }
       }
 
@@ -580,11 +580,11 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         alienY = 0;
         score += 1;
 
-        if (score > 10){
+        if (score > 50){
         var button1 = document.getElementById('button1');
         var displaySetting = button1.style.display;
         button1.style.display = 'none';
-        
+
         }
       }
     }
