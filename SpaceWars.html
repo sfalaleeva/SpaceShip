@@ -151,6 +151,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     Draw the start message
     -------------------------------------------------- */
     function drawStart(){
+      console.log("starting");
       graphics.font = "60px Arial";
       graphics.fillStyle = "red";
       graphics.fillText("Press y to start",100,300);
@@ -564,9 +565,10 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         asteroidX = getRandomInt(0, canvas.width);
         asteroidY = 0;
         score += 1;
-
-        if (score > 10){
-
+        if (score > 50){
+          var button1 = document.getElementById('button1');
+          var displaySetting = button1.style.display;
+          button1.style.display = 'none';
         }
       }
 
@@ -581,10 +583,9 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         score += 1;
 
         if (score > 50){
-        var button1 = document.getElementById('button1');
-        var displaySetting = button1.style.display;
-        button1.style.display = 'none';
-
+          var button1 = document.getElementById('button1');
+          var displaySetting = button1.style.display;
+          button1.style.display = 'none';
         }
       }
     }
