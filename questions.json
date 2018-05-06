@@ -1,0 +1,112 @@
+[
+  {
+    "question" : "Which of the following code snippets is the optimal way print each item in array = ['dogs', 'cats', 'fish', 'turtles', 'penguins']",
+    "answers" : ["A.  i = 0
+        while (true):
+          print(array[i])
+          i++",
+    "B.  i = 0
+        while (true):
+          print(array[i])
+          i++
+          if (i > 4):
+            break",
+    "C.  for i in range 0, 5:
+          print(array[i])",
+    "D. for i in range 0, len(array):
+          print(array[i])"],
+    "correct" :  3,
+  }, {
+    "question" : "Which of the following code snippets is the optimal way to greet someone by name only if
+    their name is Alice or Bob. Assume name has already been obtained prior to executing this
+    code snippet",
+    "answers" : ["A.  if name = \"Alice\":
+          print(\"Hello Alice\")
+        elif name = \"Bob\":
+          print(\"Hello Bob\")",
+    "B.  if name == \"Alice\":
+          print(\"Hello Alice\")
+        elif name == \"Bob\":
+          print(\"Hello Bob\")",
+    "C.  if name == \"Alice\":
+          print(\"Hello Alice\")
+        elif name == \"Bob\":
+          print(\"Hello Bob\")
+        else:
+          print(\"\")",
+    "D.  if name != \"Alice\":
+          if name != \"Bob\":
+            print(\"\")
+          elif name == \"Bob\":
+            print(\"Hello Bob\")
+        elif name == \"Alice\":
+          print(\"Hello Alice\")"],
+    "correct" : 1
+  }, {
+    "question" : "Which of the following code snippets is the optimal way to sum numbers using a
+    while loop",
+    "answers" : ["A.  sum = 0
+        n = 10
+        while true:
+          sum += n
+          n -=1",
+    "B.  sum = 0
+        n = 10
+        while true:
+          sum += n
+          n -=1
+          if n < 0:
+              break",
+    "C.  sum = 0
+        n = 1
+        while n > 0:
+          sum += n
+          n += 1",
+    "D.  sum = 0
+        n = 10
+        while n > 0:
+          sum += n
+          n -= 1"],
+    "correct" : 3
+  }, {
+    "question" : "Please find and fix the mistake in the following code snippet:
+    Find the largest item in an unordered list of numbers
+    maxnumber = 0
+    for i in range 0, len(list):
+      if list[i] < maxnumber:
+        maxnumber = list[i]",
+    "answers" : ["A. for i in range 0, len(list)-1:
+         if list[i] < maxnumber:
+    	max number = list[i]",
+    "B. for i in range 0, len(list):
+         if list[i] > maxnumber:
+    	list[i] = maxnumber",
+    "C. for i in 0, len(list):
+         if list[i] < maxnumber:
+         	maxnumber = list[i]",
+    "D. for i in range 0, len(list):
+         if list[i] > maxnumber:
+         	maxnumber = list[i]"],
+    "correct" : 3
+  }, {
+    "question" : "Please find and fix the mistake in the following code snippet:
+    userNum = input(\"What is your number? \")
+    newNum = userNum + 5
+    print(\"The new number is \", newNum)",
+    "answers" : [
+      "A. userNum = input(print(\"What is your number? \"))
+         newNum = userNum + 5
+         print(\"The new number is \", newNum)",
+      "B. userNum = eval(input(\"What is your number? \"))
+         newNum = userNum + 5
+         print(\"The new number is \", newNum)",
+      "C. userNum = input(\"What is your number? \")
+         newNum = userNum + 5
+         print(\"The new number is \" + newNum)",
+      "D. userNum = input(\"What is your number? \")
+         newNum = userNum + 5
+         println(\"The new number is \", newNum)"],
+    "correct" : 1
+
+  }
+]
