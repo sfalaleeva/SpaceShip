@@ -117,10 +117,10 @@
     }
 
   </style>
-  <!-- link to JSON file with questions --> 
-  <script type="text/javascript" src="questions.json"></script>
+  <!-- link to JSON file with questions -->
+  <!--<script type="text/javascript" src="questions.json"></script> -->
 
-  <script> 
+  <script>
 
     var question_data = [{
     "question" : "Which of the following code snippets is the optimal way print each item in array = ['dogs', 'cats', 'fish', 'turtles', 'penguins']",
@@ -181,12 +181,12 @@
       }
     });
     */
-    
+
 
 
 
     function getQuestion(){
-      
+
     /*var abc = $.getJSON("questions.json", function(){
       alert("success")}
     );*/
@@ -273,12 +273,12 @@
       return (eval(str.slice(-1))-1);
     }
 
- 
+
 
 
 
 /**
-    function loadJSON(callback) {   
+    function loadJSON(callback) {
 
     var xobj = new XMLHttpRequest();
         xobj.overrideMimeType("application/json");
@@ -289,7 +289,7 @@
             callback(xobj.responseText);
           }
     };
-    xobj.send(null);  
+    xobj.send(null);
     }
     **/
 
@@ -357,11 +357,11 @@ onclick ="MoveOver()"> Question </button>
   var sub = document.getElementById("submit");
         sub.onclick = function(e){
           //alert("I clicked submit");
-          
+
           console.log(evalQuestion());
           $("button").hide();
         }
-        
+
   </script>
 </body>
 
