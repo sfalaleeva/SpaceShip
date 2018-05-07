@@ -1,8 +1,8 @@
-
 <!DOCTYPE html>
 <html>
 
 <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <title></title>
   <style>
 
@@ -97,7 +97,14 @@
       background-color: black;
     }
 
+    .highlightChoice{
+      border-width: 3px;
+      border-color: black;
+      background-color: grey;
+    }
+
     .choice{
+      background-color: white;
       text-align:left;
       width:100%;
       color:black;
@@ -110,20 +117,129 @@
     }
 
   </style>
+  <!-- link to JSON file with questions --> 
+  <script type="text/javascript" src="questions.json"></script>
 
-  <script>
-        
+  <script> 
+
+    var question_data = [{
+    "question" : "Which of the following code snippets is the optimal way print each item in array = ['dogs', 'cats', 'fish', 'turtles', 'penguins']",
+    "answers" : ["A.  i = 0\nwhile (true):\nprint(array[i])\ni++",
+    "B.  i = 0\nwhile (true):\nprint(array[i])\ni++\nif (i > 4):\nbreak",
+    "C.  for i in range 0, 5:\nprint(array[i])",
+    "D. for i in range 0, len(array):\nprint(array[i])"],
+    "correct" :  3,
+  }, {
+    "question" : "Which of the following code snippets is the optimal way to greet someone by name only if\ntheir name is Alice or Bob. Assume name has already been obtained prior to executing this\ncode snippet",
+    "answers" : ["A.  if name = \"Alice\":\nprint(\"Hello Alice\")\nelif name = \"Bob\":\nprint(\"Hello Bob\")",
+    "B.  if name == \"Alice\":\nprint(\"Hello Alice\")\nelif name == \"Bob\":\nprint(\"Hello Bob\")",
+    "C.  if name == \"Alice\":\nprint(\"Hello Alice\")\nelif name == \"Bob\":\nprint(\"Hello Bob\")\nelse:\nprint(\"\")",
+    "D.  if name != \"Alice\":\nif name != \"Bob\":\nprint(\"\")\nelif name == \"Bob\":\nprint(\"Hello Bob\")\nelif name == \"Alice\":\nprint(\"Hello Alice\")"],
+    "correct" : 1
+  }, {
+    "question" : "Which of the following code snippets is the optimal way to sum numbers using a\nwhile loop",
+    "answers" : ["A.  sum = 0\nn = 10\nwhile true:\nsum += n\nn -=1",
+    "B.  sum = 0\nn = 10\nwhile true:\nsum += n\nn -=1\nif n < 0:\nbreak",
+    "C.  sum = 0\nn = 1\nwhile n > 0:\nsum += n\nn += 1",
+    "D.  sum = 0\nn = 10\nwhile n > 0:\nsum += n\nn -= 1"],
+    "correct" : 3
+  }, {
+    "question" : "Please find and fix the mistake in the following code snippet:<br>Find the largest item in an unordered list of numbers<br>maxnumber = 0<br>for i in range 0, len(list):<br>if list[i] < maxnumber:<br>maxnumber = list[i]",
+    "answers" : ["A. for i in range 0, len(list)-1:\nif list[i] < maxnumber:\nmax number = list[i]",
+    "B. for i in range 0, len(list):\nif list[i] > maxnumber:\nlist[i] = maxnumber",
+    "C. for i in 0, len(list):\nif list[i] < maxnumber:\nmaxnumber = list[i]",
+    "D. for i in range 0, len(list):\nif list[i] > maxnumber:\nmaxnumber = list[i]"],
+    "correct" : 3
+  }, {
+    "question" : "Please find and fix the mistake in the following code snippet:\nuserNum = input(\"What is your number? \")\nnewNum = userNum + 5\nprint(\"The new number is \", newNum)",
+    "answers" : [
+      "A. userNum = input(print(\"What is your number? \"))\nnewNum = userNum + 5\nprint(\"The new number is \", newNum)",
+      "B. userNum = eval(input(\"What is your number? \"))\nnewNum = userNum + 5\nprint(\"The new number is \", newNum)",
+      "C. userNum = input(\"What is your number? \")\nnewNum = userNum + 5\nprint(\"The new number is \" + newNum)",
+      "D. userNum = input(\"What is your number? \")\nnewNum = userNum + 5\nprintln(\"The new number is \", newNum)"],
+    "correct" : 1
+
+  }]
+
+    //var question_data;
+
+    var all_choices;
+    var question;
+    var correct;
+    var chosen;
+    var iscorrect;
+
+/*
+    fetch('questions.json').then(function(response){
+      if(response.ok){
+      response.json().then(function(json){
+      question_data = json;
+      //initialize();
+      });
+    } else {
+      console.log('Network request for houses.json failed with response ' + response.status + ': ' + response.statusText);
+      }
+    });
+    */
+    
+
+
+
+    function getQuestion(){
+      
+    /*var abc = $.getJSON("questions.json", function(){
+      alert("success")}
+    );*/
+    //loadJSON(function(response) {
+  // Parse JSON string into object
+   // var question_data = JSON.parse(response);
+ //});
+
+      //question_data = JSON.parse("questions.json");
+      qindex = randNum(question_data.length);
+      //qindex = 3;
+      //console.log(qindex);
+
+      question = question_data[qindex].question;
+      //console.log(question);
+
+      all_choices = question_data[qindex].answers;
+
+      correct = question_data[qindex].correct;
+      //console.log(correct);
+    }
+
+
+
+    function evalQuestion(){
+
+      if (getIndex(chosen) === correct){
+        document.getElementById(chosen).style.backgroundColor = "lightgreen";
+
+      }else{
+        document.getElementById(chosen).style.backgroundColor = "pink";
+        document.getElementById("C" + (correct+1)).style.backgroundColor = "LightGreen";
+      }
+      //return ( chosen == correct );
+    }
+
     function MoveOver(){
       document.getElementById("game").setAttribute("class", "leftSide");
       document.getElementById("challenge").setAttribute("class", "rightSide");
-      document.getElementById("button1").innerHTML = "Click me to reverse";
+      document.getElementById("button1").innerHTML = "Back to the game";
       document.getElementById("button1").setAttribute("onclick", "javascript: MoveBack();");
+      getQuestion();
+      document.getElementById("question").innerHTML = question;
+      document.getElementById("C1").innerHTML = all_choices[0];
+      document.getElementById("C2").innerHTML = all_choices[1];
+      document.getElementById("C3").innerHTML = all_choices[2];
+      document.getElementById("C4").innerHTML = all_choices[3];
     }
 
     function MoveBack(){
       document.getElementById("game").setAttribute("class", "game");
       document.getElementById("challenge").setAttribute("class", "challenge");
-      document.getElementById("button1").innerHTML = "Click me to split";
+      document.getElementById("button1").innerHTML = "Question";
       document.getElementById("button1").setAttribute("onclick", "javascript: MoveOver();");
 
     }
@@ -141,6 +257,43 @@
       e.target.innerHTML = "";
       e.target.removeEventListener(e.type, arguments.callee);
     }
+
+    function highlight(e){
+      ///document.getElementsByClassName("choice").setAttribute("answer");
+      //e.target.style.background-color = "pink";
+      //e.target.removeEventListener(e.type, arguments.callee);
+
+    }
+
+    function randNum(limit){
+      return Math.floor((Math.random() * (limit+1)));
+    }
+
+    function getIndex(str){
+      return (eval(str.slice(-1))-1);
+    }
+
+ 
+
+
+
+/**
+    function loadJSON(callback) {   
+
+    var xobj = new XMLHttpRequest();
+        xobj.overrideMimeType("application/json");
+    xobj.open('GET', 'questions.json', true); // Replace 'my_data' with the path to your file
+    xobj.onreadystatechange = function () {
+          if (xobj.readyState == 4 && xobj.status == "200") {
+            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+            callback(xobj.responseText);
+          }
+    };
+    xobj.send(null);  
+    }
+    **/
+
+
   </script>
 
 </head>
@@ -154,7 +307,7 @@
 
 </div>
 <button id = "button1" type="button"
-onclick ="MoveOver()"> Click me </button>
+onclick ="MoveOver()"> Question </button>
 <div class = "challenge" id = "challenge">
 
   <div class = "question" id = "question"></div>
@@ -170,27 +323,46 @@ onclick ="MoveOver()"> Click me </button>
 
       Type your solution here
       <script>
-      document.getElementById("button1").disabled = true;
       /*var aceEditor = window.ace.edit(divElement);*/
-
+      document.getElementById("question").innerHTML = question;
+      //document.getElementById("answer").addEventListener("click", highlight)
       document.getElementById("input").addEventListener("click", handler);
-      function tab(){
-        /*var v=document.getElementById("input").value;
-        var s=document.getElementById("input").selectionStart;
-        var e=document.getElementById("input").selectionEnd;
-        document.getElementById("input").value=v.substring(0, s)+'\t'+v.substring(e);
-        document.getElementById("input").selectionStart=document.getElementById("input").selectionEnd=s+1;*/
-        return false;
+
+      var a = document.getElementById('answer');
+        a.onclick = function(e){
+        if (chosen != null){
+          //$("#"+chosen).toggleClass("choice");
+          document.getElementById(chosen).style.backgroundColor = "white";
+        }
+        chosen = e.target.id;
+        console.log(chosen);
+        //$("#"+chosen).toggleClass("highlightChoice");
+        //document.getElementById(chosen).style.border = "black";
+        //document.getElementById(chosen).style.borderWidth = "3px";
+        document.getElementById(chosen).style.backgroundColor = "grey";
       }
+
     </script></div>
 
   </div>
 
-  <button id = "submit" type = "button"
-    onclick="Submit()">
+
+  <button id = "submit" type = "button">
     SUBMIT </button>
 
 </div>
+
+<script>
+  document.getElementById("question").innerHTML = question;
+  var sub = document.getElementById("submit");
+        sub.onclick = function(e){
+          //alert("I clicked submit");
+          
+          console.log(evalQuestion());
+          $("button").hide();
+        }
+        
+  </script>
 </body>
-<script src="q1.js"></script>
+
 </html>
