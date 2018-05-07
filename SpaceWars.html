@@ -630,10 +630,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
           score += 1;
           //if score is greater or equal to 50 then you get access to a button
           //this button leads you to the coding challenge
-          if (score >= 50){
-            var button1 = document.getElementById('button1');
-            var displaySetting = button1.style.display;
-            button1.style.display = 'none';
+          if (score > 50){
+            document.getElementById("button1").disabled = false;
           }
         } else if ((alienX + 33 >= shots[i][0] - 5) && (alienX - 33 <= shots[i][0] + 5)
         && (alienY + 33 >= shots[i][1] - 5) && (alienY - 33 <= shots[i][1] + 5)) {
@@ -652,10 +650,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
           score += 1;
           //if score is greater or equal to 50 then you get access to a button
           //this button leads you to the coding challenge
-          if (score >= 50){
-            var button1 = document.getElementById('button1');
-            var displaySetting = button1.style.display;
-            button1.style.display = 'none';
+          if (score > 50){
+            document.getElementById("button1").disabled = false;
           }
         }
       }
