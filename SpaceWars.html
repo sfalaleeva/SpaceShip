@@ -284,6 +284,12 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       graphics.fillStyle = "red";
       graphics.fillText("GAME OVER :(",100,300);
     }
+    
+    function drawQuestion() {
+      graphics.font = "40px Dosis";
+      graphics.fillStyle = "red";
+      graphics.fillText("Press the Question button.",100,300);
+    }
 
     /* -------------------------------------------------
     Draw the extra functionality instructions on the top of the screen
@@ -315,7 +321,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       graphics.fillText("You can grab shields by moving in front of it.", 50, 250);
       graphics.fillText("You have 3 lives.", 50, 300);
       graphics.fillText("Also, each shield protects you from two hits.", 50, 350);
-      graphics.fillText("You get coding challenges after each 10 points.", 50, 400);
+      graphics.fillText("You get coding challenges after 50 points.", 50, 400);
       graphics.fillText("Press x to go back to the game.", 50, 450);
     }
 
@@ -379,7 +385,6 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     	drawMuteHelp();
     	drawAsteroid();
     	drawAlien();
-    	drawScore();
     	//collision detection for all the interactions between game components
     	collisionDetection();
     	// If the asteroid hits the LEFT/RIGHT WALL,
@@ -630,8 +635,9 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
           score += 1;
           //if score is greater or equal to 50 then you get access to a button
           //this button leads you to the coding challenge
-          if (score > 50){
-            document.getElementById("button1").disabled = false;
+          if (score > 5){
+             drawQuestion();
+             cancelAnimationFrame();
           }
         } else if ((alienX + 33 >= shots[i][0] - 5) && (alienX - 33 <= shots[i][0] + 5)
         && (alienY + 33 >= shots[i][1] - 5) && (alienY - 33 <= shots[i][1] + 5)) {
@@ -650,8 +656,9 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
           score += 1;
           //if score is greater or equal to 50 then you get access to a button
           //this button leads you to the coding challenge
-          if (score > 50){
-            document.getElementById("button1").disabled = false;
+          if (score > 5){
+             drawQuestion();
+             cancelAnimationFrame();
           }
         }
       }
