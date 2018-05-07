@@ -544,8 +544,9 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         //if no more lives left then draw the game over statement
         //cancel animation frame to end game
         if (lives == 0) {
-          drawLose();
+          drawLose();       
           cancelAnimationFrame();
+          
         }
         // Update the state of the shield
         if (shield == 2) {
@@ -571,6 +572,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         startExplosion(explosionX, explosionY);
         //if no more lives left then draw the game over statement
         //cancel animation frame to end game
+        console.log(lives);
         if (lives == 0) {
           drawLose();
           cancelAnimationFrame();
@@ -635,7 +637,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
           score += 1;
           //if score is greater or equal to 50 then you get access to a button
           //this button leads you to the coding challenge
-          if (score > 5){
+          if (score > 50){
              drawQuestion();
              cancelAnimationFrame();
           }
@@ -656,7 +658,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
           score += 1;
           //if score is greater or equal to 50 then you get access to a button
           //this button leads you to the coding challenge
-          if (score > 5){
+          if (score > 50){
              drawQuestion();
              cancelAnimationFrame();
           }
