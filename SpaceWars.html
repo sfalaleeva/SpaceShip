@@ -22,11 +22,18 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let canvas;    // DOM object corresponding to the canvas
     let graphics;  // 2D graphics context for drawing on the canvas
     let requestId; // animation frame requestID
-    let spaceship_x = 550;
-    let spaceship_y = 550;
+    
+    //spaceship coordinates
+    let spaceship_x = 550; 
+    let spaceship_y = 550; 
+    
+    //array to hold shots by user
     let shots = [];
+    
+    //total lives
     let lives = 3;
-
+    
+    //all the keypress variables
     let rightPressed = false;
     let leftPressed = false;
     let sPressed = false;
@@ -35,21 +42,27 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     let xPressed = false;
     let pPressed = false;
     let cPressed = false;
+    
+    //total score
     let score = 0;
+    
+    //current time to limit number of bullets shot by spaceship
     let checkTime = 0;
+    
+    //all the sound effect files
     let sound = new Audio("background.mp3"); // buffers automatically when created
     let shoot_s = new Audio("shoot.wav");
     let explosion_s = new Audio("explosion.wav");
 
-    // Asteroid will have a radius of 10px
-	  let asteroidRadius = 40;
-
-	  // Asteroid start off point
-	  let asteroidX = 600;
-	  let asteroidY = 0;
-
-	  // Alien will have a radius of 10px
-	  let alienRadius = 40;
+    // Asteroid will have a radius of 40px
+    let asteroidRadius = 40;
+    
+    // Asteroid start off point
+    let asteroidX = 600;
+    let asteroidY = 0;
+    
+    // Alien will have a radius of 40px
+    let alienRadius = 40;
 
     // Alien start off point
     let alienX = 300;
@@ -62,8 +75,11 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     // And when the alien moves, we'll shift 5px at a time
     let alien_dx = 5;
     let alien_dy = 5;
-
+    
+    //variable to check if alien's bullet is on the screen
     let bullet_on_screen = false;
+    
+    //bullet x, y point which are updated later based on alien coordinates
     let bulletY = 0;
     let bulletX = 0;
 
@@ -76,6 +92,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     // variables to keep track of the state of the shield. 0=no shield,
     //1=red shield, 2=green shield
     let shield = 2;
+    
     // variable to control movement of shield power up. move 2px at a time
     let powerupX = 400;
     let powerupY = 0;
@@ -91,18 +108,24 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
 
-    // Create Handlers for keydown and keyup events
+    /* -------------------------------------------------
+    Function for KeyDownHandler
+    -------------------------------------------------- */
     function keyDownHandler(e) {
       // e.keyCode == 39 (right arrow key)
       // e.keyCode == 37 (left arrow key)
       // e.keyCode == 83 (s key)
       // e.keyCode == 89 (y key)
       // e.keyCode == 80 (p key)
+      // e.keyCode == 72 (h key)
+      // e.keyCode == 88 (x key) 
+      // e.keyCode == 77 (m key)
       if (e.keyCode == 39) {
         rightPressed = true;
       } else if (e.keyCode == 37) {
         leftPressed = true;
       } else if (e.keyCode == 83) {
+        //add intervals between the bullet shots by spaceship
         let currentTime = new Date();
         if((currentTime.getTime() - checkTime) > 100){
           sPressed = true;
@@ -120,7 +143,10 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         pPressed = true;
       }
     }
-
+    
+    /* -------------------------------------------------
+    Function for KeyUpHandler
+    -------------------------------------------------- */
     function keyUpHandler(e) {
       if (e.keyCode == 39) {
         rightPressed = false;
@@ -151,6 +177,7 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     Draw the start message
     -------------------------------------------------- */
     function drawStart(){
+      console.log("starting");
       graphics.font = "60px Arial";
       graphics.fillStyle = "red";
       graphics.fillText("Press y to start",100,300);
@@ -174,23 +201,6 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       graphics.fillText("top coding expert, to fly to these space stations and fix the corrupted code.", 10, 210);
       setTimeout(draw, 5000);
     }
-    /*
-    let backstory = ["The year is 2050 and the human race has spread out across the stars.", "Human settlements, sometimes separated by several billion lightyears, rely on advanced space stations to communicate.", "Although humanity has made peace with most of the alien species it has encountered, a gang of rogue Crouser aliens has recently attacked these vital space stations.", "They have coruppted several vital snippets of code contained in the space station mainframes, completely disrupting humanity's ability to communicate.", "It is up to you, the Galactic Order's top coding expert, to fly to these space stations and fix the corrupted code."];
-    let speed = 40;
-    let message = "";
-    function drawBackstory(j, k){
-      for (j;j<backstory.length;j++) {
-        if (k < backstory[j].length) {
-          //console.log(k);
-          message += backstory[j].charAt(k);
-          k++;
-          graphics.fillText(message, 10, 50 + (j*10));
-          setTimeout(drawBackstory(j,k), speed);
-        }
-        k = 0;
-      }
-    }*/
-
 
     /* -------------------------------------------------
     Draw the spaceship image at x, y
@@ -277,7 +287,10 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     graphics.fillStyle = "red";
     graphics.fillText("GAME OVER :(",100,300);
     }
-
+    
+    /* -------------------------------------------------
+    Draw the extra functionality instructions on the top of the screen
+    -------------------------------------------------- */
     function drawMuteHelp() {
      WebFontConfig = {
       google: {
@@ -287,11 +300,17 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     graphics.font = "25px Dosis";
     graphics.fillText("Press m to mute, h for help, and p to start/pause", 8, 25);
     }
-
+    
+    /* -------------------------------------------------
+    Random number generator
+    -------------------------------------------------- */
     function getRandomInt(min, max) {
     	return Math.random() * (max - min) + min;
     }
-
+    
+    /* -------------------------------------------------
+    Draw function for the game instructions when h is pressed
+    -------------------------------------------------- */
     function drawHelp () {
     graphics.font = "25px Dosis";
     graphics.fillStyle = "red";
@@ -302,42 +321,67 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     graphics.fillText("You get coding challenges after each 10 points.", 50, 400);
     graphics.fillText("Press x to go back to the game.", 50, 450);
     }
-
+    
+    /* -------------------------------------------------
+    The main draw function
+    -------------------------------------------------- */
     function draw(){
+    
       // clear the canvas
       graphics.clearRect(0, 0, canvas.width, canvas.height);
+      
       // If spaceship should be moving right, and is not at the right wall
       if (rightPressed && spaceship_x <canvas.width-15){
         spaceship_x += 5;
       }
+      
       // If spaceship should be moving left and is not at the left wall
       else if (leftPressed && spaceship_x > 0){
         spaceship_x -= 5;
       }
+      
+      //If spaceship shoots (s press)
       if (sPressed){
+        
+        //Add shots only if less than 20 in the shots array to limit player
         if (shots.length < 20){
+          
+          //new shot coordinates -> shot from the spaceship's current coordinates
           let new_shoot = [spaceship_x+20, spaceship_y];
+          
+          //add shot to the array
           shots.push(new_shoot);
+          
+          //play shooting sound
           shoot_s.play();
         }
       }
+      
+      //If user presses m to mute
       if (mutePressed) {
+      
+        // if the sound was muted, unmute
         if ((sound.muted) && (shoot_s.muted) && (explosion_s)){
            sound.muted = false;
            shoot_s.muted = false;
            explosion_s.muted = false;
      } else {
+        //if the sound was not muted, mute
         sound.muted = true;
         shoot_s.muted = true;
         explosion_s.muted = true;
      }
      }
-
+     
+      //Drawing various game components
       drawExplosion();
       drawSpaceship(spaceship_x, spaceship_y);
       drawShield(spaceship_x, spaceship_y);
       drawLives();
-
+      
+      //Drawing all the shots from the shots array
+      //updating y-coordinate of the shots to move up the screen
+      //if shot exits the screen, remove from shots list
       for (i = 0; i < shots.length; i++) {
         drawShooting(shots[i][0], shots[i][1]);
         shots[i][1] -= 5;
@@ -351,8 +395,10 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     	drawAsteroid();
     	drawAlien();
     	drawScore();
-
+    	
+    	//collision detection for all the interactions between game components
     	collisionDetection();
+    	
     	// If the asteroid hits the LEFT/RIGHT WALL,
     	// switch horizontal travel direction
     	if(asteroidX > canvas.width + asteroidRadius){
@@ -376,44 +422,72 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     	asteroidX += ast_dx;
     	asteroidY += ast_dy;
 
-
+        // Move the alien
      	alienX += alien_dx;
      	alienY += alien_dy;
+     	
+     	//if the alien's x-coordinate is in the first column of the screen
+     	//then it moves zig-zig bouncing off the left wall and 1/3 of the screen
      	if (alienX >= 0 && alienX < canvas.width/3){
      		if (alienX + alienRadius > canvas.width/3 || alienX < 0){
     			alien_dx = alien_dx * -1;
     		}
     	}
-
+    	
+    	//if the alien's x-coordinate is in the middle column of the screen
+     	//then it moves zig-zig bouncing off 1/3 of the screen and 2/3 of the screen
     	if (alienX >= canvas.width/3  && alienX < 2*(canvas.width/3)){
      		if (alienX + alienRadius > (canvas.width/3)*2 || alienX < canvas.width/3){
     			alien_dx = alien_dx * -1;
     		}
     	}
+    	
+    	//if the alien's x-coordinate is in the last column of the screen
+     	//then it moves zig-zig bouncing off 2/3 of the screen and the right wall
       if (alienX >= (canvas.width/3)*2  && alienX < canvas.width){
   			if (alienX + alienRadius > canvas.width || alienX < (canvas.width/3)*2){
     			alien_dx = alien_dx * -1;
     		}
     	}
-
+    	
+    	//if the alien exits the bottom of the screen
+    	//move y-coordinate back to the top of the screen
+    	//get a random x-coordinate
    		if(alienY > canvas.height + alienRadius) {
         	alienY = 0;
         	alienX = getRandomInt(0, canvas.width);
     	}
-
+    	
+    	//if the alien does not have a shot bullet on the screen
     	if (bullet_on_screen == false) {
+    	
+    	    //generate a random integer between 0 and 100
+    	    //that will decide if the alien will shoot
     	    let bullet_rand = getRandomInt(0, 100);
+    	    
+    	    //if the random int is between 10 and 90 it shoots a bullet
     	    if ((bullet_rand >= 10) && (bullet_rand <= 90)) {
-    	        console.log(bullet_rand);
+    	    
+    	        //the bullet on screen boolean is now true
     	        bullet_on_screen = true;
+    	        
+    	        //bullet's coordinates are the same as the alien's coordinates
     	        bulletY = alienY;
     	        bulletX = alienX;
+    	        
+    	        //draw the alien's bullet
     	        drawAlienShoot();
     	       }
     	} else {
+    	    
+    	    //if there is a bullet on screen
+    	    //move bullet further down the screen
     	    bulletY += 15;
+    	    //update bullet's position
     	    drawAlienShoot();
     	}
+    	
+    	//if bullet exits screen then set the bullet_on_screen variable to false
     	if (bulletY > canvas.height + 70) {
     	     bullet_on_screen = false;
     	}
@@ -430,40 +504,59 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         drawing = true;
       }
 
-
-
       // Tell JS to animate frame by recursively calling
       requestId = requestAnimationFrame(draw);
 
     }
-
+    
+    /* -------------------------------------------------
+    Draws the explosion
+    -------------------------------------------------- */
     function drawExplosion() {
+      //decreases the explosion time which lasts for 15 recursive calls
       explosionTime -= 1;
+      //draw explosion as long as the explosion time is greater than 0
       if (explosionTime > 0) {
         graphics.drawImage(explosion, explosionX, explosionY, explosionSize, explosionSize);
       }
     }
-
+    
+    /* -------------------------------------------------
+    Timer for the explosion animation
+    -------------------------------------------------- */
     function startExplosion(x, y) {
       explosionX = x;
       explosionY = y;
+      //duration for the animation
       explosionTime = 15;
     }
-
+    
+    /* -------------------------------------------------
+    Function with all the collisions between different game components
+    -------------------------------------------------- */
     function collisionDetection() {
-
 
     // if spaceship hits asteroid
       if (((asteroidX + 25 >= spaceship_x - 15) && (asteroidX - 25 <= spaceship_x + 15)
         && (asteroidY + 25 >= spaceship_y - 15) && (asteroidY - 25 <= spaceship_y + 15))) {
+        
+        //explosions coordinates are where the asteroid is
         explosionX = asteroidX;
         explosionY = asteroidY+10;
+        
+        //play explosion sound
         explosion_s.play();
+        
+        //explosion animation
         startExplosion(explosionX, explosionY);
+        
+        //if no more lives left then draw the game over statement
+        //cancel animation frame to end game
         if (lives == 0) {
           drawLose();
           cancelAnimationFrame();
         }
+        
         // Update the state of the shield
         if (shield == 2) {
           shield = 1;
@@ -472,7 +565,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         } else {
           lives = lives - 1;
         }
-        //lives = lives - 1;
+        
+        //a new asteroid appears on top of the screen with random x coordinate
         asteroidX = getRandomInt(0, canvas.width);
         asteroidY = 0;
       }
@@ -480,14 +574,24 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     // if spaceship hits alien
     else if ((alienX + 15 >= spaceship_x - 15) && (alienX - 25 <= spaceship_x + 15)
         && (alienY + 25 >= spaceship_y - 15) && (alienY - 25 <= spaceship_y + 15)) {
+        
+        //explosions coordinates are where the alien is
         explosionX = alienX;
         explosionY = alienY+10;
+        
+        //play explosion sound
         explosion_s.play();
+        
+        //explosion animation
         startExplosion(explosionX, explosionY);
+        
+        //if no more lives left then draw the game over statement
+        //cancel animation frame to end game
         if (lives == 0) {
           drawLose();
           cancelAnimationFrame();
         }
+        
         // Update the state of the shield
         if (shield == 2) {
           shield = 1;
@@ -496,7 +600,8 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         } else {
           lives = lives - 1;
         }
-        //lives = lives - 1;
+        
+        //a new alien appears on top of the screen with random x coordinate
         alienX = getRandomInt(0, canvas.width);
         alienY = 0;
     }
@@ -504,14 +609,24 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
     // if spaceship hits bullet
     else if ((bulletX + 15 >= spaceship_x - 15) && (bulletX - 15 <= spaceship_x + 15)
         && (bulletY + 15 >= spaceship_y - 15) && (bulletY - 15 <= spaceship_y + 15)) {
+        
+        //explosions coordinates are where the bullet is
         explosionX = bulletX;
         explosionY = bulletY+10;
+        
+        //play explosion sound
         explosion_s.play();
+        
+        //explosion animation
         startExplosion(explosionX, explosionY);
+        
+        //if no more lives left then draw the game over statement
+        //cancel animation frame to end game
         if (lives == 0) {
           drawLose();
           cancelAnimationFrame();
         }
+        
         // Update the state of the shield
         if (shield == 2) {
           shield = 1;
@@ -520,7 +635,9 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         } else {
           lives = lives - 1;
         }
-        //lives = lives - 1;
+        
+        //the bullet's coordinates are updated so that it is not on the screen
+        //the on screen variable is set to false
         bulletY = canvas.width + 70;
         bullet_on_screen = false;
     }
@@ -545,7 +662,10 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
       powerupY = 0;
       drawing = false;
     }
-
+    
+     //if help key pressed
+     //draw help instructions
+     //press x to exit help instructions
      if (hPressed) {
          drawHelp();
          if (xPressed){
@@ -554,43 +674,71 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
      }
 
     // when you shoot and hit asteroid/alien, your score goes up
+    //looping over all the bullets shot by the spaceship
 		for (i = 0; i < shots.length; i++) {
+		  
+		  //for hitting the asteroid
 		  if ((asteroidX + 35 >= shots[i][0] - 5) && (asteroidX - 35 <= shots[i][0] + 5)
       && (asteroidY + 35 >= shots[i][1] - 5) && (asteroidY - 35 <= shots[i][1] + 5)) {
+      
+        //explosions coordinates are where the asteroid is
         explosionX = asteroidX;
         explosionY = asteroidY+10;
+        
+        //play explosion sound
         explosion_s.play();
+        
+        //explosion animation
         startExplosion(explosionX, explosionY);
+        
+        //a new asteroid appears on top of the screen with random x coordinate
         asteroidX = getRandomInt(0, canvas.width);
         asteroidY = 0;
+        
+        //score increases by 1 
         score += 1;
-
-        if (score > 50){
-        var button1 = document.getElementById('button1');
-        var displaySetting = button1.style.display;
-        button1.style.display = 'none';
-      }
-
-      else if ((alienX + 33 >= shots[i][0] - 5) && (alienX - 33 <= shots[i][0] + 5)
-      && (alienY + 33 >= shots[i][1] - 5) && (alienY - 33 <= shots[i][1] + 5)) {
+        
+        //if score is greater or equal to 50 then you get access to a button
+        //this button leads you to the coding challenge
+        if (score >= 50){
+          var button1 = document.getElementById('button1');
+          var displaySetting = button1.style.display;
+          button1.style.display = 'none';
+        }
+      } else if ((alienX + 33 >= shots[i][0] - 5) && (alienX - 33 <= shots[i][0] + 5)
+      && (alienY + 33 >= shots[i][1] - 5) && (alienY - 33 <= shots[i][1] + 5)) { //for hitting the alien
+      
+        //explosions coordinates are where the alien is
         explosionX = alienX;
         explosionY = alienY+10;
+        
+        //play explosion sound
         explosion_s.play();
+        
+        //explosion animation
         startExplosion(explosionX, explosionY);
+        
+        //a new alien appears on top of the screen with random x coordinate
         alienX = getRandomInt(0, canvas.width);
         alienY = 0;
+        
+        //score increases by 1 
         score += 1;
-
-        if (score > 50){
-        var button1 = document.getElementById('button1');
-        var displaySetting = button1.style.display;
-        button1.style.display = 'none';
-
+        
+        //if score is greater or equal to 50 then you get access to a button
+        //this button leads you to the coding challenge
+        if (score >= 50){
+          var button1 = document.getElementById('button1');
+          var displaySetting = button1.style.display;
+          button1.style.display = 'none';
         }
       }
     }
   }
-
+  
+    /* -------------------------------------------------
+    Function that starts the game
+    -------------------------------------------------- */
     function init() {
         canvas = document.getElementById("theCanvas");
         graphics = canvas.getContext("2d");
@@ -598,9 +746,9 @@ Note: Borrowed some code from the PaddleBall sprint (moving left and right)
         let asteroid = document.getElementById("asteroid");
         let alien = document.getElementById("alien");
         sound.play();
+        
+        //calls the start screen
         drawStart();
-        console.log("has play");
-        //draw();  // draw something on the canvas
     }
 
 
