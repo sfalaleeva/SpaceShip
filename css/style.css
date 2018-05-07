@@ -1,30 +1,33 @@
 body {
 background-color: black;
 }
-/* inside super long div that should be the picture being repeated a billion times */
+/* outer div that contains the inner div */
 .outer {
 	color: green;
 	width: 600px;
 	height: 900px;
-	/*margin: auto;*/
-	overflow: hidden;
+	overflow: hidden; /* hide the inner div's overflowing part */
 }
+
+/* contains the background picture */
 .inner {
 	background-image: url('/stars.png');
 	position: relative;
 	width: 600px;
-	height: 1200px;
+	height: 1200px; /* this div is supposed to be long so that the animation will look smooth */
 	animation-name: scroll;
 	animation-duration: 3s; /* how long it takes for animation to finish */
 	animation-iteration-count: infinite;
 	animation-timing-function: linear;
 }
 
-@keyframes scroll {
+/* the scrolling animation */
+@keyframes scroll { 
 	from {top: -500px;}
 	to {top: 0px;}
 }
 
+/* contains game components */
 canvas {
 	position: relative;
 	top: 0;
