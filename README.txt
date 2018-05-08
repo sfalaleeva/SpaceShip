@@ -7,4 +7,5 @@ Languages used:
 HTML, CSS, JavaScript
 
 How to run:
-Make sure all files are located in the same directory. This game requires that you set up a local host. Open the file SpaceWars.html to run the game. The score will appear once you start shooting. 
+Make sure all files are located in the same directory. This game requires that you set up a local host. Open the file index.html to run the game. You must click the canvas first in order to register key presses. Follow the instructions on the screen to start the game. 
+The left and right arrow keys are for moving left and right, and the s key is for shooting. The score will appear once you start shooting. 
