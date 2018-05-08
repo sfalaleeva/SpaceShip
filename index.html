@@ -1,9 +1,24 @@
 <!DOCTYPE html>
 <html>
 
+<!-- 
+  Final Project for CSC 220: SpaceWars2050
+  Authors: Mai Ngo, Asmita Gautam, Stacy Falaleeva, Miriam Hodas
+
+  Sources and references used in the code: 
+    https://www.w3schools.com/jsref/default.asp
+    https://www.w3schools.com/js/default.asp
+    https://www.w3schools.com/css/default.asp
+    http://api.jquery.com/
+--> 
 <head>
+
+  <!-- link to jQuery library--> 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
   <title></title>
+
+  <!-- CSS for the page --> 
   <style>
 
     body{
@@ -12,21 +27,29 @@
       margin: 0px;
       text-align: center;
     }
+
+      /*------------------------
+      For the element where the game is displayed 
+      -----------------------*/
     .game{
       background-color: green;
       text-align: center;
-      /*float: center;*/
       width: 900px;
       display: inline-block;
       height: 100vh;
     }
 
+      /*------------------------
+      For the element where the the question and answer choices are displayed
+      -----------------------*/
     .challenge{
       text-align: center;
       display:none;
-
     }
 
+      /*------------------------
+      For the element where the question is displayed
+      -----------------------*/
     .question{
       background-color: black;
       height: 40%;
@@ -38,6 +61,9 @@
 
     }
 
+      /*------------------------
+      For the element where the answer choices are displayed
+      -----------------------*/
     .answer{
       background-color: black;
       height: 50%;
@@ -45,15 +71,20 @@
       overflow: scroll;;
     }
 
+      /*------------------------
+      For when the screen is split in half 
+      -----------------------*/
     .leftSide{
       background-color:black;
       text-align: center;
       width:50%;
       height: 100vh;
-      /*display: inline-block; */
       float: left;
     }
 
+      /*------------------------
+      For when the screen is split in half 
+      -----------------------*/
     .rightSide{
       background-color: black;
       text-align: center;
@@ -63,13 +94,15 @@
       float: right;
     }
 
+    /*------------------------
+    For later use when the free-response feature is implemented 
+    -----------------------*/
     .input{
       background-color: white;
       color: grey;
       display: inline-block;
       width: 96%;
       height: 96%;
-      /*margin: 10px;*/
       font-size: 20px;
       text-align: left;
       margin: 0px;
@@ -81,27 +114,29 @@
       outline: none;
     }
 
+
+
     #answer{
       background-color: white;
     }
 
     #submit{
-      /*float: right;*/
       width: 80px;
     }
 
+    /*------------------------
+    For the html game object 
+    -----------------------*/
     #starwars{
       height:100%;
       width:100%;
       background-color: black;
     }
 
-    .highlightChoice{
-      border-width: 3px;
-      border-color: black;
-      background-color: grey;
-    }
 
+    /*------------------------
+     For multiple choice divs 
+    -----------------------*/
     .choice{
       background-color: white;
       text-align:left;
@@ -117,11 +152,10 @@
 
   </style>
 
-  <!-- link to JSON file with questions -->
-  <script type="text/javascript" src="questions.json"></script>
+  <script> 
 
-
-  <script>
+    // Stores several multiple choice questions as JavaScript objects
+    // in the future, more questions should be added and stored in a separate JSON file
 
     var question_data = [{
     "question" : "Which of the following code snippets is the optimal way print each item in array = ['dogs', 'cats', 'fish', 'turtles', 'penguins']",
@@ -162,73 +196,97 @@
 
   }]
 
-    //var question_data;
 
-    var all_choices;
-    var question;
-    var correct;
-    var chosen;
-    var iscorrect;
+    var all_choices;  // stores an array of all choices for the question
+    var question;     // stores a string with a question
+    var correct;      // stores an index of the correct answer
+    var chosen;       // stores the currently chosen div 
+  
 
-/*
-    fetch('questions.json').then(function(response){
-      if(response.ok){
-      response.json().then(function(json){
-      question_data = json;
-      //initialize();
-      });
-    } else {
-      console.log('Network request for houses.json failed with response ' + response.status + ': ' + response.statusText);
-      }
-    });
-    */
-
-
-
-
+    /*-------------------------------------------
+    Randomly picks a question stored as a JS object 
+    in an array and intializes the variables
+    ---------------------------------------------*/
     function getQuestion(){
-
-    /*var abc = $.getJSON("questions.json", function(){
-      alert("success")}
-    );*/
-    //loadJSON(function(response) {
-  // Parse JSON string into object
-   // var question_data = JSON.parse(response);
- //});
-
-      //question_data = JSON.parse("questions.json");
+      
+      // randomly pick an index
       qindex = randNum(question_data.length);
-      //qindex = 3;
-      //console.log(qindex);
 
+      // retrieve the question
       question = question_data[qindex].question;
-      //console.log(question);
 
+      // retrieve the choices for that question
       all_choices = question_data[qindex].answers;
 
+      // retrieve the correct answer
       correct = question_data[qindex].correct;
-      //console.log(correct);
+
     }
 
+    /*-------------------------------------------
+    Checks if chosen answer matches the answer 
+    stored in the correct variable
 
+    If chosen answer is correct, highlights it in green and
+    displays "YOU WON" message
 
+    If incorrect, highlight the chosen answer in red, correct 
+    answer in green and diplays "YOU LOST" message
+    ---------------------------------------------*/
     function evalQuestion(){
 
+      // check if chosen is equal to correct
       if (getIndex(chosen) === correct){
+
+        // highlight in green 
         document.getElementById(chosen).style.backgroundColor = "lightgreen";
 
+        // instead of question now display this message
+        $("#question").text("YOU WON! ;)");
+        
+      // if answered incorrectly
       }else{
+
+        // highlight correct in green, chosen in pink
         document.getElementById(chosen).style.backgroundColor = "pink";
         document.getElementById("C" + (correct+1)).style.backgroundColor = "LightGreen";
+
+        // instead of question now display this message
+        $("#question").text("YOU LOST :(");
+
       }
-      //return ( chosen == correct );
+
+        // format the text in the question div 
+        $("#question").css('color','lightgrey');
+        $("#question").css('font-size','50px');
+        $("#question").css('text-align', 'center');
+
+        // display the button for starting the new game 
+        $("#button1").show();
     }
 
+
+    /*-------------------------------------------
+    Splits the screen in half, displaying the question
+    on the right side of the screen, game on the left
+    ---------------------------------------------*/
     function MoveOver(){
+
+      // move the game div to the left side by chaging the class
       document.getElementById("game").setAttribute("class", "leftSide");
+
+      // challenge div will be on the right side
       document.getElementById("challenge").setAttribute("class", "rightSide");
-      document.getElementById("button1").innerHTML = "Back to the game";
-      document.getElementById("button1").setAttribute("onclick", "javascript: MoveBack();");
+
+      // change the button that previously said "Question" to be "Start over" button
+      $("#button1").text("Start Over");
+      // make it invisible for now
+      $("#button1").hide();
+
+      // when that button is clicked, the whole page reloads to start over the game
+      document.getElementById("button1").setAttribute("onclick", "javascript: window.location.reload();");
+
+      // get data to display in the question div
       getQuestion();
       document.getElementById("question").innerHTML = question;
       document.getElementById("C1").innerHTML = all_choices[0];
@@ -237,62 +295,43 @@
       document.getElementById("C4").innerHTML = all_choices[3];
     }
 
-    function MoveBack(){
-      document.getElementById("game").setAttribute("class", "game");
-      document.getElementById("challenge").setAttribute("class", "challenge");
-      document.getElementById("button1").innerHTML = "Question";
-      document.getElementById("button1").setAttribute("onclick", "javascript: MoveOver();");
 
-    }
-
-    function Submit(){
+    /*-------------------------------------------
+    For later use when free-response feature is implemented
+    ---------------------------------------------*/
+    /*function Submit(){
       var input = document.getElementById("input").textContent;
       console.log(input);
       input = input.replace("<br>", "\n");
       var output = eval(input);
       document.getElementById("question").innerHTML = output;
-    }
+    }*/
 
-    function handler(e){
+    /*-------------------------------------------
+    For later use when free-response feature is implemented
+    ---------------------------------------------*/
+    /*function handler(e){
       e.target.style.color = "black";
       e.target.innerHTML = "";
       e.target.removeEventListener(e.type, arguments.callee);
-    }
+    }*/
 
-    function highlight(e){
-      ///document.getElementsByClassName("choice").setAttribute("answer");
-      //e.target.style.background-color = "pink";
-      //e.target.removeEventListener(e.type, arguments.callee);
 
-    }
-
+    /*-------------------------------------------
+    Generates a random whole number between 0 and limit
+    ---------------------------------------------*/
     function randNum(limit){
-      return Math.floor((Math.random() * (limit+1)));
+      return Math.floor((Math.random() * (limit)));
     }
 
+    /*-------------------------------------------
+    Returns the last character of the string
+    To handle comparison of chosen divs that have ids in
+    the format "C[index]" and variable correct that only contains the index
+    ---------------------------------------------*/
     function getIndex(str){
       return (eval(str.slice(-1))-1);
     }
-
-
-
-
-
-/**
-    function loadJSON(callback) {
-
-    var xobj = new XMLHttpRequest();
-        xobj.overrideMimeType("application/json");
-    xobj.open('GET', 'questions.json', true); // Replace 'my_data' with the path to your file
-    xobj.onreadystatechange = function () {
-          if (xobj.readyState == 4 && xobj.status == "200") {
-            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-            callback(xobj.responseText);
-          }
-    };
-    xobj.send(null);
-    }
-    **/
 
 
   </script>
@@ -301,67 +340,83 @@
 
 <body>
 
+<!-- Where the game will go -->
 <div class = "game" id = "game">
 
-
+  <!-- Game runs as its own html file in the game div -->
   <object id = "starwars" type="text/html" data="SpaceWars.html"></object>
 
 </div>
-<button id = "button1" type="button"
+
+<!-- Button to take the user to the question part -->
+<button id = "button1" type="button" style ="height:20px;width:100px"
 onclick ="MoveOver()"> Question </button>
+
+<!-- Where the coding challenge will go --> 
 <div class = "challenge" id = "challenge">
 
+  <!-- Top half of the challenge div, displays the question itself --> 
   <div class = "question" id = "question"></div>
 
+  <!-- Bottom half of the challenge div, displays the choices -->
   <div class = "answer" id = "answer">
 
+    <!-- For displaying 4 multiple choices --> 
     <div id = "C1" class = "choice"></div>;
     <div id = "C2" class = "choice"></div>;
     <div id = "C3" class = "choice"></div>;
     <div id = "C4" class = "choice"></div>;
 
+    <!-- For later being able to get user input from the div -->
     <div id = "input" class = "input" contenteditable = "true">
+    Type your solution here
 
-      Type your solution here
+
       <script>
-      /*var aceEditor = window.ace.edit(divElement);*/
-      document.getElementById("question").innerHTML = question;
-      //document.getElementById("answer").addEventListener("click", highlight)
-      document.getElementById("input").addEventListener("click", handler);
+      
+      // set text of question div to the actual question
+      document.getElementById("question").textContent = question;
+      
+      //for the future use 
+      //document.getElementById("input").addEventListener("click", handler);
 
+      // onclick highlights the last chosen multiple choice div in grey
+      // previously clicked div reverts back to white 
       var a = document.getElementById('answer');
         a.onclick = function(e){
         if (chosen != null){
-          //$("#"+chosen).toggleClass("choice");
           document.getElementById(chosen).style.backgroundColor = "white";
         }
         chosen = e.target.id;
         console.log(chosen);
-        //$("#"+chosen).toggleClass("highlightChoice");
-        //document.getElementById(chosen).style.border = "black";
-        //document.getElementById(chosen).style.borderWidth = "3px";
         document.getElementById(chosen).style.backgroundColor = "grey";
       }
+
     </script></div>
 
   </div>
 
-
+  <!-- Button for submission -->
   <button id = "submit" type = "button">
     SUBMIT </button>
 
 </div>
 
 <script>
+
   document.getElementById("question").innerHTML = question;
+
+  // when submit is clicked, call evalQuestion() 
+  // hide submit button
+  // disable onlick function of the answer divs 
   var sub = document.getElementById("submit");
-        sub.onclick = function(e){
-          //alert("I clicked submit");
 
+        sub.onclick = function(e){         
           console.log(evalQuestion());
-          $("button").hide();
+          $("#submit").hide();
+          a.onclick = null;
         }
-
+        
   </script>
 </body>
 
